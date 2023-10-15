@@ -1,0 +1,22 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import {getAuth} from "firebase/auth";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDAda8jbpjwkdhDvo5KeaM7gj_ZE9DqTCI",
+  authDomain: "digital-memory-book.firebaseapp.com",
+  databaseURL: "https://digital-memory-book-default-rtdb.firebaseio.com",
+  projectId: "digital-memory-book",
+  storageBucket: "digital-memory-book.appspot.com",
+  messagingSenderId: "298172683131",
+  appId: "1:298172683131:web:f9f3673256dc3d496ca3de",
+  measurementId: "G-LNMBFHE7S6"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
