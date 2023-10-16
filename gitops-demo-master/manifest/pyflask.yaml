@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pyflask
+spec:
+  selector:
+    matchLabels:
+      app: pyflask
+  template:
+    metadata:
+      labels:
+        app: pyflask
+    spec:
+      containers:
+      - name: pyflask
+        image: dab8106/pyflask:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5000
+        env:
+          - name: FLASK_APP
+            value: app.py
+          - name: WEB2_COUNTER_MSG
+            value: visitors on argo app deployment
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pyflask
+spec:
+  selector:
+    app: pyflask
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 5000
