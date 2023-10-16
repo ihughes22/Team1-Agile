@@ -1,0 +1,47 @@
+.RegistrationPage {
+    background-color: #f3f3f3;
+    padding: 50px;
+    width: 300px;
+    margin-top: 200px;
+    margin-left: 550px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Style for the form elements */
+  .RegistrationPage input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  /* Style for the error message */
+  .RegistrationPage p {
+    color: #ff0000;
+    font-size: 14px;
+    margin: 10px 0;
+  }
+  
+  /* Style for the Register button */
+  .RegistrationPage button {
+    width: 100%;
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  /* Style for the Register button on hover */
+  .RegistrationPage button:hover {
+    background-color: #0056b3;
+  }
+  
