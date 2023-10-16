@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import './Registration.css';
+import { useNavigate } from "react-router-dom";
 
 function Registration() {
   const [email, setEmail] = useState("");
@@ -36,14 +37,13 @@ function Registration() {
   }
 
   // Here you would typically send the registration data to your backend for processing.
-  // For the sake of this example, we'll simulate success after a delay.
   setTimeout(() => {
     setIsRegistered(true);
     setUsername(username);
   }, 1000);
     };
 
-    
+
 const validatePassword = (password) => {
 	const letterCount = password.replace(/[^a-zA-Z]/g, "").length;
 	if (letterCount < 8) {
@@ -65,6 +65,8 @@ const validatePassword = (password) => {
     return emailRegex.test(email);
   };
 
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     setIsRegistered(false);
     setEmail("");
@@ -72,6 +74,7 @@ const validatePassword = (password) => {
     setPassword("");
     setPasswordConfirmation("");
     setRegistrationError("");
+    navigate("/");
   };
 
   return (

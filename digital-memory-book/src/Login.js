@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Login.css';
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
     const [username, setUsername] = useState("");
@@ -8,12 +8,12 @@ function Login() {
     const [password, setPassword] = useState("");
     const [isLoggedIn, setIsLoggedIn] = useState(false);
   
-    /*
+    
     const navigate = useNavigate();
 
     const handleClick = () =>{
         navigate("/Registration");
-    }*/
+    }
 
     const handleLogin = () => {
       // Simulate a login by checking the username and password.
@@ -62,7 +62,7 @@ function Login() {
               </div>
               <br></br>
               <button onClick={handleLogin}>Login</button>
-              <button /*onClick={handleClick}*/>Register</button>
+              <button onClick={handleClick}>Register</button>
             </div>
           )}
         </div>
