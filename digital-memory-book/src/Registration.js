@@ -41,8 +41,9 @@ function Registration() {
     setIsRegistered(true);
     setUsername(username);
   }, 1000);
-};
+    };
 
+    
 const validatePassword = (password) => {
 	const letterCount = password.replace(/[^a-zA-Z]/g, "").length;
 	if (letterCount < 8) {
