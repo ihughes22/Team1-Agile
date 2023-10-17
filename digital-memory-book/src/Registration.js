@@ -36,12 +36,9 @@ function Registration() {
     return;
   }
 
-  // Here you would typically send the registration data to your backend for processing.
-  setTimeout(() => {
-    setIsRegistered(true);
-    setUsername(username);
-  }, 1000);
-    };
+  setIsRegistered(true);
+  setUsername(username);
+  };
 
 
 const validatePassword = (password) => {
@@ -52,15 +49,13 @@ const validatePassword = (password) => {
 	if (!/\d/.test(password)) {
 	  return "Password must contain at least one number.";
 	}
-	if (!/[!@#$%^&*]/.test(password)) {
-	  return "Password must contain a special character (!@#$%^&*).";
+	if (!/[!@#$%^*]/.test(password)) {
+	  return "Password must contain a special character.";
 	}
 	return "valid";
   };  
 
   const isValidEmail = (email) => {
-    // You can implement your own email validation logic here.
-    // For a basic check, you can use regular expressions.
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     return emailRegex.test(email);
   };
@@ -81,17 +76,18 @@ const validatePassword = (password) => {
     <div className="RegistrationPage">
       {isRegistered ? (
         <div>
-          <h2>Welcome, {username}!</h2>
-          <button onClick={handleLogout}>Logout</button>
+          <h2 data-testid="welcome" >Welcome, {username}!</h2>
+          <button data-testid="logoutb" onClick={handleLogout}>Logout</button>
         </div>
       ) : (
         <div>
           <h2>Register</h2>
-          <p>{registrationError}</p>
+          <p data-testid="error" >{registrationError}</p>
           <div>
             <input
               type="email"
               placeholder="Email"
+              data-testid="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -100,6 +96,7 @@ const validatePassword = (password) => {
             <input
               type="text"
               placeholder="Username"
+              data-testid="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
@@ -107,6 +104,7 @@ const validatePassword = (password) => {
           <div>
             <input
               type="password"
+              data-testid="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -115,12 +113,13 @@ const validatePassword = (password) => {
           <div>
             <input
               type="password"
+              data-testid="cpassword"
               placeholder="Confirm Password"
               value={passwordConfirmation}
               onChange={(e) => setPasswordConfirmation(e.target.value)}
             />
           </div>
-          <button onClick={handleRegister}>Register</button>
+          <button data-testid="registerb" onClick={handleRegister}>Register</button>
         </div>
       )}
     </div>
