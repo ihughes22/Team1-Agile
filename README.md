@@ -8,3 +8,13 @@
 1. `git clone https://github.com/ihughes22/Team1-Agile.git`
 2. `cd digital-memory-book`
 3. `npm start`
+
+## React Router 
+1. `npm i react-router-dom`
+
+## React Bootstrap 
+1. `npm install react-bootstrap bootstrap`
+
+
+
+
