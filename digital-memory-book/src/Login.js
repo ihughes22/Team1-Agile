@@ -8,7 +8,7 @@ function Login() {
     const [password, setPassword] = useState("");
     const [isLoggedIn, setIsLoggedIn] = useState(false);
   
-    
+
     const navigate = useNavigate();
 
     const handleClick = () =>{
@@ -21,7 +21,7 @@ function Login() {
         setIsLoggedIn(true);
       }
       else{
-          setLoginText("The username/password you entered is invalid or does not exist.");
+        setLoginText("The username/password you entered is invalid or does not exist.");
       }
     };
   
@@ -37,15 +37,16 @@ function Login() {
         <div className="login-box">
           {isLoggedIn ? (
             <div>
-              <h2>Welcome, {username}!</h2>
-              <button onClick={handleLogout}>Logout</button>
+              <h2 data-testid="welcome">Welcome, {username}!</h2>
+              <button data-testid="logoutb" onClick={handleLogout}>Logout</button>
             </div>
           ) : (
             <div>
-              <h2>Login</h2>
-              <p>{loginText}</p>
+              <h2 data-testid="login">Login</h2>
+              <p data-testid="error">{loginText}</p>
               <div>
                 <input
+                  data-testid="Username"
                   type="text"
                   placeholder="Username"
                   value={username}
@@ -54,6 +55,7 @@ function Login() {
               </div>
               <div>
                 <input
+                  data-testid="Password"
                   type="password"
                   placeholder="Password"
                   value={password}
@@ -61,7 +63,7 @@ function Login() {
                 />
               </div>
               <br></br>
-              <button onClick={handleLogin}>Login</button>
+              <button onClick={handleLogin} data-testid="loginb">Login</button>
               <button onClick={handleClick}>Register</button>
             </div>
           )}
