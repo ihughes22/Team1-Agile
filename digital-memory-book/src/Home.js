@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
-import NavbarTop from './NavbarTop';
+import React, { useState } from "react";
+import NavbarTop from "./NavbarTop";
 
 function Home() {
-    
-    return (
+  return (
     <div className="Home">
-    <NavbarTop></NavbarTop>
-        <p>Home</p>
-
+      <NavbarTop></NavbarTop>
+      <p>Home</p>
     </div>
-    );
+  );
 }
 
 export default Home;

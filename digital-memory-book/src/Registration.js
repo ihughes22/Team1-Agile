@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './Registration.css';
+import "./Registration.css";
 import { useNavigate } from "react-router-dom";
 
 function Registration() {
@@ -17,11 +17,11 @@ function Registration() {
       return;
     }
 
-	  // Check if the username is empty.
-	  if (!username) {
-		setRegistrationError("Please enter a username.");
-		return;
-	  }
+    // Check if the username is empty.
+    if (!username) {
+      setRegistrationError("Please enter a username.");
+      return;
+    }
 
     // Check if the password and password confirmation match.
     if (password !== passwordConfirmation) {
@@ -29,34 +29,33 @@ function Registration() {
       return;
     }
 
-      // Check the password requirements.
-  const passwordValidationResult = validatePassword(password);
-  if (passwordValidationResult !== "valid") {
-    setRegistrationError(passwordValidationResult);
-    return;
-  }
+    // Check the password requirements.
+    const passwordValidationResult = validatePassword(password);
+    if (passwordValidationResult !== "valid") {
+      setRegistrationError(passwordValidationResult);
+      return;
+    }
 
-  // Here you would typically send the registration data to your backend for processing.
-  setTimeout(() => {
-    setIsRegistered(true);
-    setUsername(username);
-  }, 1000);
-    };
+    // Here you would typically send the registration data to your backend for processing.
+    setTimeout(() => {
+      setIsRegistered(true);
+      setUsername(username);
+    }, 1000);
+  };
 
-
-const validatePassword = (password) => {
-	const letterCount = password.replace(/[^a-zA-Z]/g, "").length;
-	if (letterCount < 8) {
-	  return "Password must contain at least 8 letters.";
-	}
-	if (!/\d/.test(password)) {
-	  return "Password must contain at least one number.";
-	}
-	if (!/[!@#$%^&*]/.test(password)) {
-	  return "Password must contain a special character (!@#$%^&*).";
-	}
-	return "valid";
-  };  
+  const validatePassword = (password) => {
+    const letterCount = password.replace(/[^a-zA-Z]/g, "").length;
+    if (letterCount < 8) {
+      return "Password must contain at least 8 letters.";
+    }
+    if (!/\d/.test(password)) {
+      return "Password must contain at least one number.";
+    }
+    if (!/[!@#$%^&*]/.test(password)) {
+      return "Password must contain a special character (!@#$%^&*).";
+    }
+    return "valid";
+  };
 
   const isValidEmail = (email) => {
     // You can implement your own email validation logic here.
