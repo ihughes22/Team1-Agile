@@ -73,21 +73,14 @@ function Registration() {
     setPassword("");
     setPasswordConfirmation("");
     setRegistrationError("");
-    navigate("/");
+    navigate("/login");
   };
-
-  const goHome = () => {
-    navigate("/home");
-  }
-
-
 
   return (
     <div className="RegistrationPage">
       {isRegistered ? (
         <div>
           <h2>Welcome, {username}!</h2>
-          <button onClick={goHome}>Home</button>
           <button onClick={handleLogout}>Logout</button>
           
         </div>

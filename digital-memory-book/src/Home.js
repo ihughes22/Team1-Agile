@@ -1,10 +1,8 @@
-import React, { useState } from "react";
-import NavbarTop from "./NavbarTop";
+import React from "react";
 
 function Home() {
   return (
     <div className="Home">
-      <NavbarTop></NavbarTop>
       <p>Home</p>
     </div>
   );
