@@ -33,12 +33,17 @@ function Login() {
     setLoginText("");
   };
 
+  const goHome = () => {
+    navigate("/home");
+  }
+
   return (
     <div className="Login">
       <div className="login-box">
         {isLoggedIn ? (
           <div>
             <h2>Welcome, {username}!</h2>
+            <button onClick={goHome}>Home</button>
             <button onClick={handleLogout}>Logout</button>
           </div>
         ) : (
