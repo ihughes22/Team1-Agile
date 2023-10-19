@@ -165,7 +165,7 @@ class PostUploader extends Component {
       <h1>Upload Button</h1>
       <button onClick={this.togglePopup}>New Post</button>
       <div style={dimBackground}></div>
-      <div style={popupBox}>
+      <div style={popupBox} id="popupBox">
         <form onSubmit={this.handleUpload}>
         <div style={{display: 'flex'}}>
           <span onClick={this.togglePopup} style={{flex: '1'}}>Cancel</span>
