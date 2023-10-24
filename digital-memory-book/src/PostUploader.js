@@ -32,7 +32,7 @@ class PostUploader extends Component {
       }
     });
     this.toggleContent();
-    if (this.state.ValidationMessage == "An image is required") {
+    if (this.state.ValidationMessage === "An image is required") {
       this.setState({ ValidationMessage: "", disabled: false });
     }
   };
@@ -59,10 +59,12 @@ class PostUploader extends Component {
 
     if (this.state.showImage) {
       this.setState((prevState) => ({
-          allItems: [...prevState.allItems, prevState.formData]
-        }))
+          allItems: [...prevState.allItems, prevState.formData],
+          showPopup: !prevState.showPopup
+      }))
       this.toggleContent();
-      }
+      document.getElementById("placeholder").value = "";
+    }
     else {
       this.setState({ ValidationMessage: "An image is required", disabled: true });
     }
@@ -182,7 +184,7 @@ class PostUploader extends Component {
             </div>
           )}
           <span style={{flex: '1', position: 'relative'}}>
-            <textarea onChange={this.handleDescriptionChange} placeholder="Write a description..." style={descriptionBox}/>
+            <textarea id="placeholder" onChange={this.handleDescriptionChange} placeholder="Write a description..." style={descriptionBox}/>
           </span>
           </div>
         </form>
