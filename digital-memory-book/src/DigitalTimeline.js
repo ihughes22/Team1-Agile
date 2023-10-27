@@ -1,57 +1,50 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import "./DigitalTimeline.css";
+import { useNavigate } from "react-router-dom";
 
-class DigitalTimeline extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isPopupOpen: false,
-      enteredName: "", // State to store the entered name
-    };
-  }
+const DigitalTimeline = () => {
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const [enteredName, setEnteredName] = useState("");
+  const navigate = useNavigate();
 
-  openPopup = () => {
-    this.setState({ isPopupOpen: true });
+  const openPopup = () => {
+    setPopupOpen(true);
   };
 
-  closePopup = () => {
-    this.setState({ isPopupOpen: false });
+  const closePopup = () => {
+    setPopupOpen(false);
   };
 
-  handleNameChange = (event) => {
-    this.setState({ enteredName: event.target.value });
+  const handleNameChange = (event) => {
+    setEnteredName(event.target.value);
   };
 
-  saveName = () => {
-    // You can save the enteredName value to your desired location (e.g., in state, database, etc.)
-    // For this example, we'll just display it in the modal content.
+  const saveName = () => {
+    navigate(`/timeline/${enteredName}`);
   };
 
-  render() {
-    return (
-      <div>
-        <button onClick={this.openPopup}>Create New Timeline</button>
-        {this.state.isPopupOpen && (
-          <div className="modal">
-            <div className="modal-content">
-              <span className="close" onClick={this.closePopup}>
-                &times;
-              </span>
-              <p>Enter the name of your timeline</p>
-              <input
-                type="text"
-                placeholder="timeline name"
-                value={this.state.enteredName}
-                onChange={this.handleNameChange}
-              />
-              <button onClick={this.saveName}>Save</button>
-              <p>Timeline Name: {this.state.enteredName}</p>
-            </div>
+  return (
+    <div>
+      <button onClick={openPopup}>Create New Timeline</button>
+      {isPopupOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={closePopup}>
+              &times;
+            </span>
+            <p>Enter the name of your new timeline!</p>
+            <input
+              type="text"
+              placeholder="Timeline Name"
+              value={enteredName}
+              onChange={handleNameChange}
+            />
+            <button onClick={saveName}>Save</button>
           </div>
-        )}
-      </div>
-    );
-  }
-}
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default DigitalTimeline;
