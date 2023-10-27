@@ -6,6 +6,7 @@ import Home from "./Home";
 import NavbarTop from "./NavbarTop";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import PostUploader from "./PostUploader";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <NavbarTop/>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/upload" element={<PostUploader />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="/login" element={<Login />} />
       </Routes>

@@ -81,6 +81,14 @@ class PostUploader extends Component {
       showPopup: !prevState.showPopup
     }));
   }
+  // Function to delete a post by index
+  deletePost = (index) => {
+    this.setState((prevState) => {
+      const updatedAllItems = [...prevState.allItems];
+      updatedAllItems.splice(index, 1); // Remove the post at the specified index
+      return { allItems: updatedAllItems };
+    });
+  };
 
 
   render() {
@@ -161,10 +169,20 @@ class PostUploader extends Component {
       boxShadow: '0 4px 4px rgb(0 0 0 / 0.4)',
       zIndex: '1',
     }
+    const deleteButtonStyle = {
+      backgroundColor: 'red',
+      color: 'white',
+      border: 'none',
+      padding: '5px 10px',
+      borderRadius: '5px',
+      cursor: 'pointer',
+      marginLeft: '10px',
+
+    }
 
     return (
       <div style={{padding: '200px'}}>
-      <h1>Upload Button</h1>
+      <h1>Upload Image</h1>
       <button onClick={this.togglePopup}>New Post</button>
       <div style={dimBackground}></div>
       <div style={popupBox} id="popupBox">
@@ -197,6 +215,9 @@ class PostUploader extends Component {
           <div key={index} style={postStyle}>
             <img src={URL.createObjectURL(item.image)} alt={`Image ${index}`} style={postImageStyle} />
             <span style={{verticalAlign: 'top', flex: '1', width: '250px', height: '145px'}}>{item.description}</span>
+            <button onClick={() => this.deletePost(index)} style={deleteButtonStyle}>
+              Delete
+            </button>
           </div>
         ))}
       </div>
