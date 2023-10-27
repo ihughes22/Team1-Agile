@@ -1,0 +1,30 @@
+.page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-content: center;
+  }
+  
+  .image-container {
+    margin: 10px;
+    /* Add borders to create gridlines */
+    border: .5px solid gray; /* You can adjust the color and width as needed */
+    padding: 2px; /* Add some spacing inside the image container */
+  }
+  
+  .thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  

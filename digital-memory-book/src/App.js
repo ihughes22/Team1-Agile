@@ -7,6 +7,7 @@ import NavbarTop from "./NavbarTop";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PostUploader from "./PostUploader";
+import About from "./About";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <NavbarTop/>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
         <Route path="/upload" element={<PostUploader />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="/login" element={<Login />} />
