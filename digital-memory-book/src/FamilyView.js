@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
 import Unknown from './Photos/unknown2.jpg';
+import TrashCanIcon from './Photos/trashcan.png';
 import Modal from 'react-modal';
 
-Modal.setAppElement('#root'); // Set the root element for the modal (replace with your root element ID)
+Modal.setAppElement('#root'); 
 
 const centerContentStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minHeight: '100vh',
 };
 
 const FamilyView = () => {
   const [showMembers, setShowMembers] = useState(false);
   const [familyMembers, setFamilyMembers] = useState([
-    { id: 1, name: 'Joseph Slattery', photo: Unknown},
-    { id: 2, name: 'Mary Slattery', photo: Unknown},
+    { id: 1, name: 'Joseph Slattery', photo: Unknown },
+    { id: 2, name: 'Mary Slattery', photo: Unknown },
     { id: 3, name: 'Tabitha Slattery', photo: Unknown },
-    { id: 3, name: 'Gerald Slattery', photo: Unknown },
+    { id: 4, name: 'Gerald Slattery', photo: Unknown },
   ]);
 
   const [inviteModalIsOpen, setInviteModalIsOpen] = useState(false);
@@ -41,7 +42,7 @@ const FamilyView = () => {
   };
 
   const isEmailValid = (email) => {
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zAZ0-9.-]+\.[a-zA-Z]{2,4}$/;
     return emailPattern.test(email);
   };
 
@@ -54,6 +55,10 @@ const FamilyView = () => {
       alert(`Invitation sent to ${inviteValue} using ${inviteMethod}`);
       closeInviteModal();
     }
+  };
+
+  const removeMember = (id) => {
+    setFamilyMembers(familyMembers.filter((member) => member.id !== id));
   };
 
   return (
@@ -69,15 +74,32 @@ const FamilyView = () => {
         <div>
           <h3>Family Members in the Timeline</h3>
           <ul style={{ listStyle: 'none', padding: 0 }}>
-            {familyMembers.map((member) => (
-              <li key={member.id} style={{ marginBottom: '10px' }}>
+          {familyMembers.map((member) => (
+            <li key={member.id} style={{ marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
                 <img
                   src={member.photo}
                   style={{ borderRadius: '75px', width: '50px', height: '50px', marginRight: '10px' }}
                 />
                 {member.name}
-              </li>
-            ))}
+              </div>
+              <img
+                src={TrashCanIcon}
+                alt="Remove"
+                style={{
+                  cursor: 'pointer',
+                  width: '20px',
+                  height: '20px',
+                }}
+                onClick={() => {
+                  const confirmRemove = window.confirm("Are you sure you want to remove this person?");
+                  if (confirmRemove) {
+                    removeMember(member.id);
+                  }
+                }}
+              />
+            </li>
+          ))}
           </ul>
         </div>
       )}
