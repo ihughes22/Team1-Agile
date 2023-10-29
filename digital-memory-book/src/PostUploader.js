@@ -167,7 +167,7 @@ class PostUploader extends Component {
 
     return (
       <div style={{padding: '200px'}}>
-      <h1>Upload Button</h1>
+      <h1>Post Uploader</h1>
       <button onClick={this.togglePopup}>New Post</button>
       <div style={dimBackground}></div>
       <div style={popupBox} id="popupBox">
@@ -195,13 +195,9 @@ class PostUploader extends Component {
     </div>
 
       <div>
-        Uploaded Images:
+        Uploaded Posts:
         {this.state.allItems.map((item, index) => (
           <Post key={index} item={item}/>
-        //   <div key={index} style={postStyle}>
-        //   <img src={URL.createObjectURL(item.image)} alt={`Image ${index}`} style={postImageStyle} />
-        //   <span style={{verticalAlign: 'top', flex: '1', width: '250px', height: '145px'}}>{item.description}</span>
-        // </div>
         ))}
       </div>
 
