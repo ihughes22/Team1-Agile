@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ImageIcon from './Assets/ImageIcon.js';
-import Post from './Post.js';
 
 class PostUploader extends Component {
   maxChar = 230
@@ -60,8 +59,8 @@ class PostUploader extends Component {
 
     if (this.state.showImage) {
       this.setState((prevState) => ({
-          allItems: [...prevState.allItems, prevState.formData],
-          showPopup: !prevState.showPopup
+        allItems: [...prevState.allItems, { ...prevState.formData, date: new Date() }], // Add date to formData
+        showPopup: !prevState.showPopup
       }))
       this.toggleContent();
       document.getElementById("placeholder").value = "";
@@ -85,8 +84,6 @@ class PostUploader extends Component {
 
 
   render() {
-    // clean out CSS in future work
-    // postImageStyle and postStyle are mainly for Post.js but are also used here
     const postImageStyle = {
       border: '5px solid #fff',
       borderRadius: '4px',
@@ -167,7 +164,7 @@ class PostUploader extends Component {
 
     return (
       <div style={{padding: '200px'}}>
-      <h1>Post Uploader</h1>
+      <h1>Upload Button</h1>
       <button onClick={this.togglePopup}>New Post</button>
       <div style={dimBackground}></div>
       <div style={popupBox} id="popupBox">
@@ -194,12 +191,20 @@ class PostUploader extends Component {
         <p style={{color: 'red'}}>{this.state.ValidationMessage}</p>
     </div>
 
-      <div>
-        Uploaded Posts:
-        {this.state.allItems.map((item, index) => (
-          <Post key={index} item={item}/>
+    <div>
+      Uploaded Images:
+      {this.state.allItems
+        .sort((a, b) => b.date - a.date) // Sort posts by date in descending order
+        .map((item, index) => (
+          <div key={index} style={postStyle}>
+            <img src={URL.createObjectURL(item.image)} alt={`Image ${index}`} style={postImageStyle} />
+            <span style={{ verticalAlign: 'top', flex: '1', width: '250px', height: '145px' }}>{item.description}</span>
+            <div style={{ textAlign: 'center' }}>
+              {item.date.toLocaleString()} {/* Display date */}
+            </div>
+          </div>
         ))}
-      </div>
+    </div>
 
 
       </div>
