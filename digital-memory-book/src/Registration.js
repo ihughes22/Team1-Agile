@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Registration.css";
 import { useNavigate } from "react-router-dom";
 import Auth from "./Backend/components/auth"
+import { handleSignUp } from "./Backend/components/auth";
 
 
 function Registration() {
@@ -18,7 +19,6 @@ function Registration() {
       setRegistrationError("Invalid email address.");
       return;
     }
-
 
     // Check if the username is empty.
     if (!username) {
@@ -43,6 +43,7 @@ function Registration() {
     setTimeout(() => {
       setIsRegistered(true);
       setUsername(username);
+      handleSignUp();
     }, 1000);
 
 
