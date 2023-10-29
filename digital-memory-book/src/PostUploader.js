@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ImageIcon from './Assets/ImageIcon.js';
+import Post from './Post.js';
 
 class PostUploader extends Component {
   maxChar = 230
@@ -84,6 +85,8 @@ class PostUploader extends Component {
 
 
   render() {
+    // clean out CSS in future work
+    // postImageStyle and postStyle are mainly for Post.js but are also used here
     const postImageStyle = {
       border: '5px solid #fff',
       borderRadius: '4px',
@@ -194,10 +197,11 @@ class PostUploader extends Component {
       <div>
         Uploaded Images:
         {this.state.allItems.map((item, index) => (
-          <div key={index} style={postStyle}>
-            <img src={URL.createObjectURL(item.image)} alt={`Image ${index}`} style={postImageStyle} />
-            <span style={{verticalAlign: 'top', flex: '1', width: '250px', height: '145px'}}>{item.description}</span>
-          </div>
+          <Post key={index} item={item}/>
+        //   <div key={index} style={postStyle}>
+        //   <img src={URL.createObjectURL(item.image)} alt={`Image ${index}`} style={postImageStyle} />
+        //   <span style={{verticalAlign: 'top', flex: '1', width: '250px', height: '145px'}}>{item.description}</span>
+        // </div>
         ))}
       </div>
 
