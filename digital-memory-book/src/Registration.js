@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./Registration.css";
 import { useNavigate } from "react-router-dom";
+import Auth from "./Backend/components/auth"
+
 
 function Registration() {
   const [email, setEmail] = useState("");
@@ -16,6 +18,7 @@ function Registration() {
       setRegistrationError("Invalid email address.");
       return;
     }
+
 
     // Check if the username is empty.
     if (!username) {
@@ -41,6 +44,8 @@ function Registration() {
       setIsRegistered(true);
       setUsername(username);
     }, 1000);
+
+
   };
 
   const validatePassword = (password) => {
@@ -82,7 +87,7 @@ function Registration() {
         <div>
           <h2>Welcome, {username}!</h2>
           <button onClick={handleLogout}>Logout</button>
-          
+
         </div>
       ) : (
         <div>
@@ -121,6 +126,8 @@ function Registration() {
             />
           </div>
           <button onClick={handleRegister}>Register</button>
+          {/* <button onClick={Auth().signIn()}>Register</button> */}
+
         </div>
       )}
     </div>
