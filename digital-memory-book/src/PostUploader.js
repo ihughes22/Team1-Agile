@@ -25,8 +25,6 @@ class PostUploader extends Component {
 
     };
 
-
-
     this.toggleContent = this.toggleContent.bind(this);
     this.togglePopup = this.togglePopup.bind(this);
     this.handleToggleEditMode = this.handleToggleEditMode.bind(this); // Add this line
@@ -167,6 +165,14 @@ toggleEditMode = (index) => {
     });
   }
 
+  deletePost = (index) => {
+    this.setState((prevState) => {
+      const updatedAllItems = [...prevState.allItems];
+      updatedAllItems.splice(index, 1); // Remove the post at the specified index
+      return { allItems: updatedAllItems };
+    });
+  };
+
   render() {
     const postImageStyle = {
       border: '5px solid #fff',
@@ -258,6 +264,17 @@ toggleEditMode = (index) => {
       zIndex: '1',
     }
 
+    const deleteButtonStyle = {
+      backgroundColor: 'red',
+      color: 'white',
+      border: 'none',
+      padding: '5px 10px',
+      borderRadius: '5px',
+      cursor: 'pointer',
+      marginLeft: '10px',
+
+    }
+
     return (
       <div style={{padding: '200px'}}>
       <Link style = {button} to="/family">View Family</Link>
@@ -324,6 +341,9 @@ toggleEditMode = (index) => {
               )}
               
             </div>
+            <button onClick={() => this.deletePost(index)} style={deleteButtonStyle}>
+              Delete
+            </button>
           </div>
         ))}
     </div>
