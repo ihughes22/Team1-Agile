@@ -23,13 +23,12 @@ function NavbarTop() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#home" onClick = {handleClick}>Home</Nav.Link>
-            <Nav.Link href="#about">About</Nav.Link>
+            <Nav.Link href="/" onClick = {handleClick}>Home</Nav.Link>
             <NavDropdown title="Resources">
-              <NavDropdown.Item href="#item1">Item 1</NavDropdown.Item>
-              <NavDropdown.Item href="#item2">Item 2</NavDropdown.Item>
+              <NavDropdown.Item href="/ourmission">Our Mission</NavDropdown.Item>
+              <NavDropdown.Item href="/meetus">Meet the Creators</NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="#contact">Contact</Nav.Link>
+            <Nav.Link href="/contactus">Contact</Nav.Link>
             <Button variant="outline-success" onClick = {handleClick2}>Get Started</Button>
           </Nav>
         </Navbar.Collapse>
