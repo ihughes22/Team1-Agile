@@ -2,17 +2,25 @@ import React from "react";
 import "./App.css";
 import Login from "./Login";
 import Registration from "./Registration";
-import DigitalTimeline from "./DigitalTimeline";
+import Home from "./Home";
+import NavbarTop from "./NavbarTop";
+import ContactUs from "./ContactUs";
+import OurMission from "./OurMission";
+import MeetTheCreators from "./MeetTheCreators";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import TimelineUrl from "./TimelineUrl";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
     <BrowserRouter>
+      <NavbarTop/>
       <Routes>
-        <Route path="/" element={<DigitalTimeline></DigitalTimeline>} />
-        <Route path="/timeline" element={<TimelineUrl />} />
+        <Route path="/" element={<Home />}
         <Route path="/registration" element={<Registration />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/contactus" element={<ContactUs />} />
+        <Route path="/ourmission" element={<OurMission />} />
+        <Route path="/meetus" element={<MeetTheCreators />} />
       </Routes>
     </BrowserRouter>
   );

@@ -42,4 +42,26 @@ describe('PostUploader Component', () => {
     const validationMessage = getByText('An image is required');
     expect(validationMessage).toBeInTheDocument();
   });
+  
+  it('updates date when edited and toggles edit mode', () => {
+    const { container, getByText } = render(<PostUploader />);
+  
+    const newPostButton = getByText('New Post');
+    fireEvent.click(newPostButton);
+  
+    const dateInput = container.querySelector('input[type="date"]');
+    fireEvent.change(dateInput, { target: { value: '2023-11-02' } });
+  
+    const editButton = getByText('Edit');
+    fireEvent.click(editButton);
+  
+    const editDateInput = container.querySelector('.edit-date-input');
+    fireEvent.change(editDateInput, { target: { value: '2023-11-03' } });
+  
+    const updateButton = getByText('Update');
+    fireEvent.click(updateButton);
+  
+    const updatedDate = container.querySelector('.date-container span').textContent;
+    expect(updatedDate).toBe('11/03/2023');
+  });
 });
