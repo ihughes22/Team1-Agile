@@ -131,22 +131,34 @@ handleEditPostDate = (index) => {
   });
 };
 
-  toggleEditMode = (index) => {
-    const { editedDate, editedIndex } = this.state;
-    const updatedItems = [...this.state.allItems];
-    updatedItems[editedIndex].date = new Date(editedDate + 'T00:00:00');
+toggleEditMode = (index) => {
+  const { editedDate, editedIndex } = this.state;
 
-  
-    this.setState({
-      allItems: updatedItems,
-      editMode: false,
-      editedDate: null,
-      editedIndex: -1,
-    });
-  
-    // Re-sort the posts after update
-    updatedItems.sort((a, b) => b.date - a.date);
-  };
+  if (editedDate) {
+    const parsedDate = new Date(editedDate + 'T00:00:00');
+
+    if (!isNaN(parsedDate)) { // Check if parsed date is valid
+      const updatedItems = [...this.state.allItems];
+      updatedItems[editedIndex].date = parsedDate;
+
+      this.setState({
+        allItems: updatedItems,
+        editMode: false,
+        editedDate: null,
+        editedIndex: -1,
+        dateValidationError: null, // Clear any previous validation errors
+      });
+
+      // Re-sort the posts after update
+      updatedItems.sort((a, b) => b.date - a.date);
+    } else {
+      // Set dateValidationError in state
+      this.setState({
+        dateValidationError: 'Please choose a valid date.'
+      });
+    }
+  }
+};
   
   handleToggleEditMode = (index) => {
     this.setState({
@@ -285,6 +297,11 @@ handleEditPostDate = (index) => {
                     onChange={this.handleEditDateChange}
                   />
                   <button className="update-button" onClick={this.toggleEditMode}>Update</button>
+                  {this.state.dateValidationError && (
+                    <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>
+                      {this.state.dateValidationError}
+                    </div>
+    )}
                 </div> 
               ) : (
                 <div className="date-container">
