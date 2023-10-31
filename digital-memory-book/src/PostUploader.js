@@ -4,7 +4,7 @@ import "./PostUploader.css";
 import { Link } from 'react-router-dom';
 
 class PostUploader extends Component {
-  maxChar = 230
+  maxChar = 230;
 
   constructor(props) {
     super(props);
@@ -20,15 +20,15 @@ class PostUploader extends Component {
       ValidationMessage: "",
       disabled: false,
       editMode: false,
-      editedDate: null, 
-      editedIndex: -1, 
-
+      editedDate: null,
+      editedIndex: -1,
+      editedCaption: '', // Added editedCaption
     };
 
     this.toggleContent = this.toggleContent.bind(this);
     this.togglePopup = this.togglePopup.bind(this);
-    this.handleToggleEditMode = this.handleToggleEditMode.bind(this); // Add this line
-    this.handleEditDateChange = this.handleEditDateChange.bind(this); // Add this line
+    this.handleToggleEditMode = this.handleToggleEditMode.bind(this);
+    this.handleEditDateChange = this.handleEditDateChange.bind(this);
   }
 
   handleImageChange = (e) => {
@@ -66,8 +66,8 @@ class PostUploader extends Component {
     const dateValue = e.target.value;
     try {
       const newDate = new Date(dateValue);
-      const offset = newDate.getTimezoneOffset(); // Get the current timezone offset
-      newDate.setMinutes(newDate.getMinutes() + offset); // Adjust the date to local timezone
+      const offset = newDate.getTimezoneOffset();
+      newDate.setMinutes(newDate.getMinutes() + offset);
 
       if (!isNaN(newDate)) {
         this.setState((prevState) => ({
@@ -88,7 +88,7 @@ class PostUploader extends Component {
     if (this.state.showImage) {
       const newPost = {
         ...this.state.formData,
-        date: this.state.formData.date || new Date(), // If date is not set, use current date
+        date: this.state.formData.date || new Date(),
       };
 
       this.setState((prevState) => ({
@@ -120,55 +120,62 @@ class PostUploader extends Component {
       editedDate: e.target.value
     });
   };
-  
-handleEditPostDate = (index) => {
-  const editedDate = this.state.allItems[index].date;
-  this.setState({
-    editMode: true,
-    editedDate: editedDate.toISOString().slice(0, 16), // Convert date to ISO format for datetime-local input
-    editedIndex: index,
-  });
-};
 
-toggleEditMode = (index) => {
-  const { editedDate, editedIndex } = this.state;
+  handleEditCaptionChange = (e) => {
+    this.setState({
+      editedCaption: e.target.value,
+    });
+  };
 
-  if (editedDate) {
-    const parsedDate = new Date(editedDate + 'T00:00:00');
+  handleEditPostDate = (index) => {
+    const editedDate = this.state.allItems[index].date;
+    this.setState({
+      editMode: true,
+      editedDate: editedDate.toISOString().slice(0, 16),
+      editedCaption: this.state.allItems[index].description, // Set the editedCaption
+      editedIndex: index,
+    });
+  };
 
-    if (!isNaN(parsedDate)) { // Check if parsed date is valid
-      const updatedItems = [...this.state.allItems];
-      updatedItems[editedIndex].date = parsedDate;
+  toggleEditMode = (index) => {
+    const { editedDate, editedIndex, editedCaption } = this.state;
 
-      this.setState({
-        allItems: updatedItems,
-        editMode: false,
-        editedDate: null,
-        editedIndex: -1,
-        dateValidationError: null, // Clear any previous validation errors
-      });
+    if (editedDate) {
+      const parsedDate = new Date(editedDate + 'T00:00:00');
 
-      // Re-sort the posts after update
-      updatedItems.sort((a, b) => b.date - a.date);
-    } else {
-      // Set dateValidationError in state
-      this.setState({
-        dateValidationError: 'Please choose a valid date.'
-      });
+      if (!isNaN(parsedDate)) {
+        const updatedItems = [...this.state.allItems];
+        updatedItems[editedIndex].date = parsedDate;
+        updatedItems[editedIndex].description = editedCaption; // Update the description
+
+        this.setState({
+          allItems: updatedItems,
+          editMode: false,
+          editedDate: null,
+          editedCaption: '', // Clear editedCaption
+          editedIndex: -1,
+          dateValidationError: null,
+        });
+
+        updatedItems.sort((a, b) => b.date - a.date);
+      } else {
+        this.setState({
+          dateValidationError: 'Please choose a valid date.',
+        });
+      }
     }
-  }
-};
-  
+  };
+
   handleToggleEditMode = (index) => {
     this.setState({
       editModeIndex: index === this.state.editModeIndex ? null : index,
     });
-  }
+  };
 
   deletePost = (index) => {
     this.setState((prevState) => {
       const updatedAllItems = [...prevState.allItems];
-      updatedAllItems.splice(index, 1); // Remove the post at the specified index
+      updatedAllItems.splice(index, 1);
       return { allItems: updatedAllItems };
     });
   };
@@ -181,8 +188,8 @@ toggleEditMode = (index) => {
       maxWidth: '400px',
       height: 'auto',
       marginRight: '40px',
-      boxShadow: '0 4px 4px rgb(0 0 0 / 0.4)'
-    }
+      boxShadow: '0 4px 4px rgb(0 0 0 / 0.4)',
+    };
 
     const button = {
       display: 'inline-block',
@@ -194,7 +201,7 @@ toggleEditMode = (index) => {
       borderRadius: '5px',
       border: '1px solid black',
       cursor: 'pointer',
-    }
+    };
 
     const postStyle = {
       border: '2px solid black',
@@ -203,8 +210,8 @@ toggleEditMode = (index) => {
       display: 'flex',
       wordWrap: 'break-word',
       maxWidth: 'max-content',
-      margin: '15px'
-    }
+      margin: '15px',
+    };
 
     const imageUploadBox = {
       display: 'inline-block',
@@ -216,30 +223,30 @@ toggleEditMode = (index) => {
       textAlign: 'center',
       fontSize: '18px',
       marginRight: '40px',
-      userSelect: 'none'
-    }
+      userSelect: 'none',
+    };
 
     const imageUploadLabel = {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-      height: '100%'
-    }
-    
+      height: '100%',
+    };
+
     const imageUploadIcon = {
       fontSize: '40px',
-      marginBottom: '10px'
-    }
+      marginBottom: '10px',
+    };
 
     const descriptionBox = {
-      height: '145px', 
-      width: '250px', 
-      verticalAlign: 'none', 
-      border: '2px solid #e2e2e2', 
+      height: '145px',
+      width: '250px',
+      verticalAlign: 'none',
+      border: '2px solid #e2e2e2',
       borderRadius: '5px',
-      resize: 'none'
-    }
+      resize: 'none',
+    };
 
     const dimBackground = {
       background: this.state.showPopup ? ('rgba(0, 0, 0, 0.5)') : ('rgba(0, 0, 0, 0)'),
@@ -249,8 +256,8 @@ toggleEditMode = (index) => {
       width: '100%',
       height: '100%',
       pointerEvents: 'none',
-      zIndex: '0'
-    }
+      zIndex: '0',
+    };
 
     const popupBox = {
       padding: '30px',
@@ -262,7 +269,7 @@ toggleEditMode = (index) => {
       background: '#ffffff',
       boxShadow: '0 4px 4px rgb(0 0 0 / 0.4)',
       zIndex: '1',
-    }
+    };
 
     const deleteButtonStyle = {
       backgroundColor: 'red',
@@ -272,83 +279,87 @@ toggleEditMode = (index) => {
       borderRadius: '5px',
       cursor: 'pointer',
       marginLeft: '10px',
-
-    }
+    };
 
     return (
-      <div style={{padding: '200px'}}>
-      <Link style = {button} to="/family">View Family</Link>
-      <button style = {button} onClick={this.togglePopup}>New Post</button>
-      <div style={dimBackground}></div>
-      <div style={popupBox} id="popupBox">
-        <form onSubmit={this.handleUpload}>
-        <div style={{display: 'flex'}}>
-          <span onClick={this.togglePopup} style={{flex: '1'}}>Cancel</span>
-          <button type='submit' disabled={this.state.disabled}>Upload</button>
-        </div>
-        <div style={postStyle}>
-          {this.state.showImage ? ( <img src={URL.createObjectURL(this.state.formData.image)} alt="Uploaded Image" style={postImageStyle} onClick={this.toggleContent} /> ) : (
-            <div style={imageUploadBox}>
-            <label style={imageUploadLabel} >
-              <span style={imageUploadIcon}><ImageIcon/></span>
-              Upload Image
-            <input type="file" accept="image/*" onChange={this.handleImageChange} style={{display: 'none'}} ref={(input) => this.imageUpload = input}/>
-            </label>
+      <div style={{ padding: '200px' }}>
+        <Link style={button} to="/family">View Family</Link>
+        <button style={button} onClick={this.togglePopup}>New Post</button>
+        <div style={dimBackground}></div>
+        <div style={popupBox} id="popupBox">
+          <form onSubmit={this.handleUpload}>
+            <div style={{ display: 'flex' }}>
+              <span onClick={this.togglePopup} style={{ flex: '1' }}>Cancel</span>
+              <button type='submit' disabled={this.state.disabled}>Upload</button>
             </div>
-          )}
-          <span style={{flex: '1', position: 'relative'}}>
-            <textarea id="placeholder" onChange={this.handleDescriptionChange} placeholder="Write a description..." style={descriptionBox}/>
-            <input
-              type="date"
-              onChange={this.handleDateChange}
-              value={this.state.formData.date ? this.state.formData.date.toISOString().substring(0, 10) : ""}
-            />
-          </span>
-          </div>
-        </form>
-        <p style={{color: 'red'}}>{this.state.ValidationMessage}</p>
-    </div>
-
-    <div>
-      Uploaded Images:
-      {this.state.allItems
-        .sort((a, b) => b.date - a.date) // Sort posts by date in descending order
-        .map((item, index) => (
-          <div key={index} style={postStyle}>
-            <img src={URL.createObjectURL(item.image)} alt={`Image ${index}`} style={postImageStyle} />
-            <span style={{ verticalAlign: 'top', flex: '1', width: '250px', height: '145px' }}>{item.description}</span>
-            <div style={{ textAlign: 'center' }}>
-              
-              {this.state.editMode && this.state.editedIndex === index ?  (
-                <div>
-                  <input
-                    type="date"
-                    value={this.state.editedDate}
-                    onChange={this.handleEditDateChange}
-                  />
-                  <button className="update-button" onClick={this.toggleEditMode}>Update</button>
-                  {this.state.dateValidationError && (
-                    <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>
-                      {this.state.dateValidationError}
-                    </div>
-    )}
-                </div> 
+            <div style={postStyle}>
+              {this.state.showImage ? (
+                <img src={URL.createObjectURL(this.state.formData.image)} alt="Uploaded Image" style={postImageStyle} onClick={this.toggleContent} />
               ) : (
-                <div className="date-container">
-                {item.date.toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit' })}
-                <button className="edit-option" onClick={() => this.handleEditPostDate(index)}>Edit</button>
-                </div>  
+                <div style={imageUploadBox}>
+                  <label style={imageUploadLabel} >
+                    <span style={imageUploadIcon}><ImageIcon /></span>
+                    Upload Image
+                    <input type="file" accept="image/*" onChange={this.handleImageChange} style={{ display: 'none' }} ref={(input) => this.imageUpload = input} />
+                  </label>
+                </div>
               )}
-              
+              <span style={{ flex: '1', position: 'relative' }}>
+                <textarea id="placeholder" onChange={this.handleDescriptionChange} placeholder="Write a description..." style={descriptionBox} />
+                <input
+                  type="date"
+                  onChange={this.handleDateChange}
+                  value={new Date().toISOString().substring(0, 10)}
+                />
+              </span>
             </div>
-            <button onClick={() => this.deletePost(index)} style={deleteButtonStyle}>
-              Delete
-            </button>
-          </div>
-        ))}
-    </div>
+          </form>
+          <p style={{ color: 'red' }}>{this.state.ValidationMessage}</p>
+        </div>
 
-
+        <div>
+          Uploaded Images:
+          {this.state.allItems
+            .sort((a, b) => b.date - a.date)
+            .map((item, index) => (
+              <div key={index} style={postStyle}>
+                <img src={URL.createObjectURL(item.image)} alt={`Image ${index}`} style={postImageStyle} />
+                {this.state.editMode && this.state.editedIndex === index ? (
+                  <div>
+                    <textarea value={this.state.editedCaption} onChange={this.handleEditCaptionChange} style={descriptionBox} />
+                    <input
+                      type="date"
+                      value={this.state.editedDate}
+                      onChange={this.handleEditDateChange}
+                    />
+                    <button className="update-button" onClick={() => this.toggleEditMode(index)}>Update</button>
+                    {this.state.dateValidationError && (
+                      <div style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>
+                        {this.state.dateValidationError}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div style={{ verticalAlign: 'top', flex: '1', width: '250px', height: '145px' }}>
+                    {item.description}
+                  </div>
+                )}
+                <div style={{ textAlign: 'center' }}>
+                  <div className="date-container">
+                    {item.date.toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit' })}
+                    {this.state.editMode && this.state.editedIndex === index ? (
+                      <button className="edit-option" onClick={() => this.toggleEditMode(index)}>Cancel</button>
+                    ) : (
+                      <button className="edit-option" onClick={() => this.handleEditPostDate(index)}>Edit</button>
+                    )}
+                  </div>
+                </div>
+                <button onClick={() => this.deletePost(index)} style={deleteButtonStyle}>
+                  Delete
+                </button>
+              </div>
+            ))}
+        </div>
       </div>
     );
   }
