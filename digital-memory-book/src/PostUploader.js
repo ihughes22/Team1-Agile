@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ImageIcon from './Assets/ImageIcon.js';
+import "./PostUploader.css";
 
 class PostUploader extends Component {
   maxChar = 230
@@ -17,10 +18,18 @@ class PostUploader extends Component {
       showPopup: false,
       ValidationMessage: "",
       disabled: false,
+      editMode: false,
+      editedDate: null, 
+      editedIndex: -1, 
+
     };
+
+
 
     this.toggleContent = this.toggleContent.bind(this);
     this.togglePopup = this.togglePopup.bind(this);
+    this.handleToggleEditMode = this.handleToggleEditMode.bind(this); // Add this line
+    this.handleEditDateChange = this.handleEditDateChange.bind(this); // Add this line
   }
 
   handleImageChange = (e) => {
@@ -54,21 +63,46 @@ class PostUploader extends Component {
     }
   };
 
+  handleDateChange = (e) => {
+    const dateValue = e.target.value;
+    try {
+      const newDate = new Date(dateValue);
+      const offset = newDate.getTimezoneOffset(); // Get the current timezone offset
+      newDate.setMinutes(newDate.getMinutes() + offset); // Adjust the date to local timezone
+
+      if (!isNaN(newDate)) {
+        this.setState((prevState) => ({
+          formData: {
+            ...prevState.formData,
+            date: newDate,
+          },
+        }));
+      }
+    } catch (error) {
+      console.error("Error parsing date:", error);
+    }
+  };
+
   handleUpload = (e) => {
     e.preventDefault();
 
     if (this.state.showImage) {
+      const newPost = {
+        ...this.state.formData,
+        date: this.state.formData.date || new Date(), // If date is not set, use current date
+      };
+
       this.setState((prevState) => ({
-        allItems: [...prevState.allItems, { ...prevState.formData, date: new Date() }], // Add date to formData
-        showPopup: !prevState.showPopup
-      }))
+        allItems: [...prevState.allItems, newPost],
+        showPopup: !prevState.showPopup,
+      }));
+
       this.toggleContent();
       document.getElementById("placeholder").value = "";
-    }
-    else {
+    } else {
       this.setState({ ValidationMessage: "An image is required", disabled: true });
     }
-}
+  };
 
   toggleContent() {
     this.setState((prevState) => ({
@@ -82,6 +116,43 @@ class PostUploader extends Component {
     }));
   }
 
+  handleEditDateChange = (e) => {
+    this.setState({
+      editedDate: e.target.value
+    });
+  };
+  
+handleEditPostDate = (index) => {
+  const editedDate = this.state.allItems[index].date;
+  this.setState({
+    editMode: true,
+    editedDate: editedDate.toISOString().slice(0, 16), // Convert date to ISO format for datetime-local input
+    editedIndex: index,
+  });
+};
+
+  toggleEditMode = (index) => {
+    const { editedDate, editedIndex } = this.state;
+    const updatedItems = [...this.state.allItems];
+    updatedItems[editedIndex].date = new Date(editedDate + 'T00:00:00');
+
+  
+    this.setState({
+      allItems: updatedItems,
+      editMode: false,
+      editedDate: null,
+      editedIndex: -1,
+    });
+  
+    // Re-sort the posts after update
+    updatedItems.sort((a, b) => b.date - a.date);
+  };
+  
+  handleToggleEditMode = (index) => {
+    this.setState({
+      editModeIndex: index === this.state.editModeIndex ? null : index,
+    });
+  }
 
   render() {
     const postImageStyle = {
@@ -185,6 +256,11 @@ class PostUploader extends Component {
           )}
           <span style={{flex: '1', position: 'relative'}}>
             <textarea id="placeholder" onChange={this.handleDescriptionChange} placeholder="Write a description..." style={descriptionBox}/>
+            <input
+              type="date"
+              onChange={this.handleDateChange}
+              value={this.state.formData.date ? this.state.formData.date.toISOString().substring(0, 10) : ""}
+            />
           </span>
           </div>
         </form>
@@ -200,7 +276,23 @@ class PostUploader extends Component {
             <img src={URL.createObjectURL(item.image)} alt={`Image ${index}`} style={postImageStyle} />
             <span style={{ verticalAlign: 'top', flex: '1', width: '250px', height: '145px' }}>{item.description}</span>
             <div style={{ textAlign: 'center' }}>
-              {item.date.toLocaleString()} {/* Display date */}
+              
+              {this.state.editMode && this.state.editedIndex === index ?  (
+                <div>
+                  <input
+                    type="date"
+                    value={this.state.editedDate}
+                    onChange={this.handleEditDateChange}
+                  />
+                  <button className="update-button" onClick={this.toggleEditMode}>Update</button>
+                </div> 
+              ) : (
+                <div className="date-container">
+                {item.date.toLocaleString([], { year: 'numeric', month: '2-digit', day: '2-digit' })}
+                <button className="edit-option" onClick={() => this.handleEditPostDate(index)}>Edit</button>
+                </div>  
+              )}
+              
             </div>
           </div>
         ))}
