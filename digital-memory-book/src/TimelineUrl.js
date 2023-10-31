@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import TimelineContent from "./TimelineContent";
+
+import PostUploader from "./PostUploader";
 
 const TimelineUrl = () => {
   const { name } = useParams();
@@ -8,7 +9,7 @@ const TimelineUrl = () => {
   return (
     <div>
       <h1>{name}</h1>
-      <TimelineContent name={name} />
+      <PostUploader />
     </div>
   );
 };

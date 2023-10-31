@@ -20,7 +20,7 @@ const DigitalTimeline = () => {
   };
 
   const saveName = () => {
-    navigate(`/timeline/${enteredName}`);
+    navigate('/timeline');
   };
 
   return (

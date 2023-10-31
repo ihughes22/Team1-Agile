@@ -12,13 +12,13 @@ function Login() {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate("/Registration");
+    navigate("/registration");
   };
 
   const handleLogin = () => {
     // Simulate a login by checking the username and password.
     if (username === "yourUsername" && password === "yourPassword") {
-      setIsLoggedIn(true);
+      navigate("/timelinecreation");
     } else {
       setLoginText(
         "The username/password you entered is invalid or does not exist.",

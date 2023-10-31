@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ImageIcon from './Assets/ImageIcon.js';
 import "./PostUploader.css";
+import { Link } from 'react-router-dom';
 
 class PostUploader extends Component {
   maxChar = 230
@@ -177,6 +178,18 @@ toggleEditMode = (index) => {
       boxShadow: '0 4px 4px rgb(0 0 0 / 0.4)'
     }
 
+    const button = {
+      display: 'inline-block',
+      padding: '10px 20px',
+      margin: '2px',
+      background: 'blue',
+      color: 'white',
+      textDecoration: 'none',
+      borderRadius: '5px',
+      border: '1px solid black',
+      cursor: 'pointer',
+    }
+
     const postStyle = {
       border: '2px solid black',
       borderRadius: '5px',
@@ -247,8 +260,8 @@ toggleEditMode = (index) => {
 
     return (
       <div style={{padding: '200px'}}>
-      <h1>Upload Button</h1>
-      <button onClick={this.togglePopup}>New Post</button>
+      <Link style = {button} to="/family">View Family</Link>
+      <button style = {button} onClick={this.togglePopup}>New Post</button>
       <div style={dimBackground}></div>
       <div style={popupBox} id="popupBox">
         <form onSubmit={this.handleUpload}>

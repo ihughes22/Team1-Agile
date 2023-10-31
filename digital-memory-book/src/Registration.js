@@ -10,6 +10,8 @@ function Registration() {
   const [isRegistered, setIsRegistered] = useState(false);
   const [registrationError, setRegistrationError] = useState("");
 
+  const navigate = useNavigate();
+
   const handleRegister = () => {
     // Check if the email is valid.
     if (!isValidEmail(email)) {
@@ -36,11 +38,8 @@ function Registration() {
       return;
     }
 
-    // Here you would typically send the registration data to your backend for processing.
-    setTimeout(() => {
-      setIsRegistered(true);
-      setUsername(username);
-    }, 1000);
+    setUsername(username);
+    navigate("/timelinecreation");
   };
 
   const validatePassword = (password) => {
@@ -64,7 +63,6 @@ function Registration() {
     return emailRegex.test(email);
   };
 
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     setIsRegistered(false);
@@ -73,7 +71,7 @@ function Registration() {
     setPassword("");
     setPasswordConfirmation("");
     setRegistrationError("");
-    navigate("/login");
+    navigate("/");
   };
 
   return (

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Unknown from './Photos/unknown2.jpg';
 import TrashCanIcon from './Photos/trashcan.png';
 import Modal from 'react-modal';
+import { Link } from 'react-router-dom';
 
 Modal.setAppElement('#root'); 
 
@@ -13,8 +14,19 @@ const centerContentStyle = {
   minHeight: '100vh',
 };
 
+const button = {
+  display: 'inline-block',
+  padding: '10px 20px',
+  margin: '2px',
+  background: 'blue',
+  color: 'white',
+  textDecoration: 'none',
+  borderRadius: '5px',
+  border: '1px solid black',
+  cursor: 'pointer',
+}
 const FamilyView = () => {
-  const [showMembers, setShowMembers] = useState(false);
+  const [showMembers, setShowMembers] = useState(true);
   const [familyMembers, setFamilyMembers] = useState([
     { id: 1, name: 'Joseph Slattery', photo: Unknown },
     { id: 2, name: 'Mary Slattery', photo: Unknown },
@@ -64,11 +76,8 @@ const FamilyView = () => {
   return (
     <div style={centerContentStyle}>
       <h2>My Family View</h2>
-      <button onClick={toggleMemberList}>
-        {showMembers ? 'Hide Family Members' : 'Show Family Members'}
-      </button>
-
-      <button onClick={openInviteModal}>Invite Family Member</button>
+      <Link style = {button} to="/timeline">Back to Timeline</Link>
+      <button style = {button} onClick={openInviteModal}>Invite Family Member</button>
 
       {showMembers && (
         <div>
