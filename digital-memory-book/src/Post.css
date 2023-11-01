@@ -1,0 +1,26 @@
+.post {
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    word-wrap: break-word;
+    max-width: max-content;
+    margin: 15px;
+};
+
+.postImage {
+    border: 5px solid #fff;
+    border-radius: 4px;
+    max-height: 150px;
+    max-width: 400px;
+    height: auto;
+    margin-right: 40px;
+    box-shadow: 0 4px 4px rgb(0 0 0 / 0.4);
+};
+
+.postDesc {
+    vertical-align: top;
+    flex: 1;
+    width: 250px;
+    height: 145px;
+}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ImageIcon from './Assets/ImageIcon.js';
 import Post from './Post.js';
+import './Post.css';
 
 class PostUploader extends Component {
   maxChar = 230
@@ -85,28 +86,6 @@ class PostUploader extends Component {
 
 
   render() {
-    // clean out CSS in future work
-    // postImageStyle and postStyle are mainly for Post.js but are also used here
-    const postImageStyle = {
-      border: '5px solid #fff',
-      borderRadius: '4px',
-      maxHeight: '150px',
-      maxWidth: '400px',
-      height: 'auto',
-      marginRight: '40px',
-      boxShadow: '0 4px 4px rgb(0 0 0 / 0.4)'
-    }
-
-    const postStyle = {
-      border: '2px solid black',
-      borderRadius: '5px',
-      padding: '10px',
-      display: 'flex',
-      wordWrap: 'break-word',
-      maxWidth: 'max-content',
-      margin: '15px'
-    }
-
     const imageUploadBox = {
       display: 'inline-block',
       borderRadius: '5px',
@@ -167,41 +146,39 @@ class PostUploader extends Component {
 
     return (
       <div style={{padding: '200px'}}>
-      <h1>Post Uploader</h1>
-      <button onClick={this.togglePopup}>New Post</button>
-      <div style={dimBackground}></div>
-      <div style={popupBox} id="popupBox">
-        <form onSubmit={this.handleUpload}>
-        <div style={{display: 'flex'}}>
-          <span onClick={this.togglePopup} style={{flex: '1'}}>Cancel</span>
-          <button type='submit' disabled={this.state.disabled}>Upload</button>
-        </div>
-        <div style={postStyle}>
-          {this.state.showImage ? ( <img src={URL.createObjectURL(this.state.formData.image)} alt="Uploaded Image" style={postImageStyle} onClick={this.toggleContent} /> ) : (
-            <div style={imageUploadBox}>
-            <label style={imageUploadLabel} >
-              <span style={imageUploadIcon}><ImageIcon/></span>
-              Upload Image
-            <input type="file" accept="image/*" onChange={this.handleImageChange} style={{display: 'none'}} ref={(input) => this.imageUpload = input}/>
-            </label>
-            </div>
-          )}
-          <span style={{flex: '1', position: 'relative'}}>
-            <textarea id="placeholder" onChange={this.handleDescriptionChange} placeholder="Write a description..." style={descriptionBox}/>
-          </span>
+        <h1>Post Uploader</h1> 
+        <button onClick={this.togglePopup}>New Post</button>
+        <div style={dimBackground}></div>
+        <div style={popupBox} id="popupBox">
+          <form onSubmit={this.handleUpload}>
+          <div style={{display: 'flex'}}>
+            <span onClick={this.togglePopup} style={{flex: '1'}}>Cancel</span>
+            <button type='submit' disabled={this.state.disabled}>Upload</button>
           </div>
-        </form>
-        <p style={{color: 'red'}}>{this.state.ValidationMessage}</p>
-    </div>
+          <div className="post">
+            {this.state.showImage ? ( <img src={URL.createObjectURL(this.state.formData.image)} alt="Uploaded Image" className="postImage" onClick={this.toggleContent} /> ) : (
+              <div style={imageUploadBox}>
+              <label style={imageUploadLabel} >
+                <span style={imageUploadIcon}><ImageIcon/></span>
+                Upload Image
+              <input type="file" accept="image/*" onChange={this.handleImageChange} style={{display: 'none'}} ref={(input) => this.imageUpload = input}/>
+              </label>
+              </div>
+            )}
+            <span style={{flex: '1', position: 'relative'}}>
+              <textarea id="placeholder" onChange={this.handleDescriptionChange} placeholder="Write a description..." style={descriptionBox}/>
+            </span>
+            </div>
+          </form>
+          <p style={{color: 'red'}}>{this.state.ValidationMessage}</p>
+        </div>
 
-      <div>
-        Uploaded Posts:
-        {this.state.allItems.map((item, index) => (
-          <Post key={index} item={item}/>
-        ))}
-      </div>
-
-
+        <div>
+          Uploaded Posts:
+          {this.state.allItems.map((item, index) => (
+            <Post key={index} item={item}/>
+          ))}
+        </div>
       </div>
     );
   }
