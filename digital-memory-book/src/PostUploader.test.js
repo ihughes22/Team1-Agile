@@ -1,14 +1,15 @@
 import React from 'react';
 import { render, fireEvent, getByPlaceholderText, getByText} from '@testing-library/react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import PostUploader from './PostUploader';
 
 describe('PostUploader Component', () => {
   it('renders without crashing', () => {
-    render(<PostUploader />);
+    render(<Router><PostUploader /></Router>);
   });
 
   it('toggles the new post popup on new post button click', () => {
-    const { getByText, container } = render(<PostUploader />); //renders page
+    const { getByText, container } = render(<Router><PostUploader /></Router>); //renders page
 
     const newPostButton = getByText('New Post'); // gets this button "New Post"
     fireEvent.click(newPostButton); // clicks that button, causing a popup to open
@@ -21,7 +22,7 @@ describe('PostUploader Component', () => {
 
 
   it('the popup box will not be displayed upon render', () => {
-    const { container } = render(<PostUploader />);
+    const { container } = render(<Router><PostUploader /></Router>);
 
     const element = container.querySelector('#popupBox');
     const elementStyle = window.getComputedStyle(element);
@@ -31,7 +32,7 @@ describe('PostUploader Component', () => {
 
 
   it('displays a validation message when trying to upload without an image', () => {
-    const { getByText } = render(<PostUploader />);
+    const { getByText } = render(<Router><PostUploader /></Router>);
     const newPostButton = getByText('New Post');
 
     fireEvent.click(newPostButton);
@@ -44,7 +45,7 @@ describe('PostUploader Component', () => {
   });
   
   it('updates date when edited and toggles edit mode', () => {
-    const { container, getByText } = render(<PostUploader />);
+    const { container, getByText } = render(<Router><PostUploader /></Router>);
   
     const newPostButton = getByText('New Post');
     fireEvent.click(newPostButton);
