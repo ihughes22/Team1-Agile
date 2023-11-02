@@ -17,7 +17,7 @@ import FamilyView from "./FamilyView";
 function App() {
   return (
     <BrowserRouter>
-      <NavbarTop/>
+      <NavbarTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/registration" element={<Registration />} />
