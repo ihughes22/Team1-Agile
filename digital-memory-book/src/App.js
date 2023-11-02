@@ -13,9 +13,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function App() {
   return (
     <BrowserRouter>
-      <NavbarTop/>
+      <NavbarTop />
       <Routes>
-        <Route path="/" element={<Home />}
+        <Route path="/" element={<Home />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="/login" element={<Login />} />
         <Route path="/contactus" element={<ContactUs />} />
