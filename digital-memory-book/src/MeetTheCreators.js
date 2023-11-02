@@ -81,7 +81,7 @@ const MeetTheCreators = () => {
     <div style={pageStyles}>
       <h1 style={headingStyles}>Meet the Creators</h1>
       {teamMembers.map((member, index) => (
-        <div key={index} style={memberStyles}>
+        <div data-testid="people" key={index} style={memberStyles}>
           <img src={`team_member_${index + 1}.jpg`} alt={member.name} />
           <h2 style={memberNameStyles}>{member.name}</h2>
           <p style={memberRoleStyles}>{member.role}</p>
