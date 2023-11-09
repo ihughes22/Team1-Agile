@@ -68,13 +68,14 @@ class PostUploader extends Component {
       const newDate = new Date(dateValue);
       const offset = newDate.getTimezoneOffset();
       newDate.setMinutes(newDate.getMinutes() + offset);
-
+  
       if (!isNaN(newDate)) {
         this.setState((prevState) => ({
           formData: {
             ...prevState.formData,
             date: newDate,
           },
+          selectedUploadDate: newDate.toISOString().substring(0, 10), // Update selectedUploadDate
         }));
       }
     } catch (error) {
@@ -90,7 +91,7 @@ class PostUploader extends Component {
         ...this.state.formData,
         date: this.state.formData.date || new Date(),
       };
-
+      
       this.setState((prevState) => ({
         allItems: [...prevState.allItems, newPost],
         showPopup: !prevState.showPopup,
@@ -118,6 +119,7 @@ class PostUploader extends Component {
   handleEditDateChange = (e) => {
     this.setState({
       editedDate: e.target.value
+      
     });
   };
 
@@ -128,11 +130,15 @@ class PostUploader extends Component {
   };
 
   handleEditPostDate = (index) => {
-    const editedDate = this.state.allItems[index].date;
+    const editedDate = new Date(this.state.allItems[index].date);
+    editedDate.setDate(editedDate.getDate() );
+  
+    const editedDateFormatted = editedDate.toISOString().slice(0, 10);
+  
     this.setState({
       editMode: true,
-      editedDate: editedDate.toISOString().slice(0, 16),
-      editedCaption: this.state.allItems[index].description, // Set the editedCaption
+      editedDate: editedDateFormatted,
+      editedCaption: this.state.allItems[index].description, 
       editedIndex: index,
     });
   };
@@ -309,7 +315,11 @@ class PostUploader extends Component {
                 <input
                   type="date"
                   onChange={this.handleDateChange}
-                  value={new Date().toISOString().substring(0, 10)}
+                  value={this.state.formData.date ? this.state.formData.date.toISOString().substring(0, 10) : (() => {
+                    const currentDate = new Date();
+                    currentDate.setDate(currentDate.getDate() - 1);
+                    return currentDate.toISOString().substring(0, 10);
+                  })()}
                 />
               </span>
             </div>
@@ -329,7 +339,7 @@ class PostUploader extends Component {
                     <textarea value={this.state.editedCaption} onChange={this.handleEditCaptionChange} style={descriptionBox} />
                     <input
                       type="date"
-                      value={this.state.editedDate}
+                      value={this.state.editedDate || new Date().toISOString().slice(0, 10)}
                       onChange={this.handleEditDateChange}
                     />
                     <button className="update-button" onClick={() => this.toggleEditMode(index)}>Update</button>
