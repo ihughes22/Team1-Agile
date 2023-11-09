@@ -94,6 +94,7 @@ class PostUploader extends Component {
       boxShadow: '0 4px 4px rgb(0 0 0 / 0.4)'
     }
 
+
     const postStyle = {
       border: '2px solid black',
       borderRadius: '5px',
@@ -117,6 +118,7 @@ class PostUploader extends Component {
       userSelect: 'none'
     }
 
+
     const imageUploadLabel = {
       display: 'flex',
       flexDirection: 'column',
@@ -124,17 +126,17 @@ class PostUploader extends Component {
       alignItems: 'center',
       height: '100%'
     }
-    
+
     const imageUploadIcon = {
       fontSize: '40px',
       marginBottom: '10px'
     }
 
     const descriptionBox = {
-      height: '145px', 
-      width: '250px', 
-      verticalAlign: 'none', 
-      border: '2px solid #e2e2e2', 
+      height: '145px',
+      width: '250px',
+      verticalAlign: 'none',
+      border: '2px solid #e2e2e2',
       borderRadius: '5px',
       resize: 'none'
     }

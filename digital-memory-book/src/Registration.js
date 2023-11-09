@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import "./Registration.css";
 import { useNavigate } from "react-router-dom";
-import Auth from "./Backend/components/auth"
+//import {Auth} from "./Backend/components/auth"
+import { auth } from "./Backend/config/firebase";
+import {
+  createUserWithEmailAndPassword,
+    } from "firebase/auth";
+
 
 
 function Registration() {
@@ -12,7 +17,7 @@ function Registration() {
   const [isRegistered, setIsRegistered] = useState(false);
   const [registrationError, setRegistrationError] = useState("");
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     // Check if the email is valid.
     if (!isValidEmail(email)) {
       setRegistrationError("Invalid email address.");
@@ -37,6 +42,14 @@ function Registration() {
     if (passwordValidationResult !== "valid") {
       setRegistrationError(passwordValidationResult);
       return;
+    }
+
+    try {
+      // Use the createUserWithEmailAndPassword function from auth.js to handle registration
+      await createUserWithEmailAndPassword(auth, email, password);
+      setIsRegistered(true);
+    } catch (error) {
+      setRegistrationError(error.message);
     }
 
     // Here you would typically send the registration data to your backend for processing.
@@ -135,4 +148,6 @@ function Registration() {
 }
 
 export default Registration;
+
+
 
