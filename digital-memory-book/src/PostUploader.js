@@ -317,7 +317,7 @@ class PostUploader extends Component {
                   onChange={this.handleDateChange}
                   value={this.state.formData.date ? this.state.formData.date.toISOString().substring(0, 10) : (() => {
                     const currentDate = new Date();
-                    currentDate.setDate(currentDate.getDate() - 1);
+                    currentDate.setDate(currentDate.getDate());
                     return currentDate.toISOString().substring(0, 10);
                   })()}
                 />
