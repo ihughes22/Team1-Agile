@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
+import testRender from '../src/PDFExporter';
 
 const Home = () => {
   const pageStyles = {
@@ -35,7 +36,8 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleClick2 = () => {
-    navigate('/login')
+    // navigate('/login');
+    testRender();
   };
 
   return (
@@ -45,6 +47,7 @@ const Home = () => {
         <p style={subheadingStyles}>Capture and relive your memories with ease.</p>
         <button onClick = {handleClick2} style={loginButtonStyles}>Log In</button>
       </div>
+      <p id="test">test</p>
     </div>
   );
 };
