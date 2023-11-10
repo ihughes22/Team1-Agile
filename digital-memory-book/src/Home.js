@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-import testRender from '../src/PDFExporter';
 
 const Home = () => {
   const pageStyles = {
@@ -36,7 +35,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleClick2 = () => {
-    navigate('/login');
+    navigate('/login')
   };
 
   return (
