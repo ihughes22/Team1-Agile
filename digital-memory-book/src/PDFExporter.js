@@ -16,7 +16,13 @@ const styles = StyleSheet.create({
   }
 });
 
-// Create Document Component - Need to integrate with timeline later
+const Tester = () => {
+    return (
+        <PostUploader />
+    );
+}
+
+// Create Document Component - Need to write a version for timeline later
 const MyDocument = () => (
   <Document>
     <Page size="A4" style={styles.page}>
@@ -28,15 +34,6 @@ const MyDocument = () => (
       </View>
     </Page>
   </Document>
-
-//// Getting a confusing issue with basename and useContext
-//   <Document>
-//     <Page size="A4" style={styles.page}>
-//       <View style={styles.section}>
-//       <PostUploader />
-//       </View>
-//     </Page>
-//   </Document>
 );
 
 const PDFGenerator = () => (
