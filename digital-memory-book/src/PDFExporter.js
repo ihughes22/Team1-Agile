@@ -1,10 +1,7 @@
 import React from 'react';
-import { render, Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
-import ReactPDF from '@react-pdf/renderer';
-import ReactDOM from 'react-dom';
-import { PDFViewer } from '@react-pdf/renderer';
-import { createRoot } from 'react-dom/client';
-
+import { PDFViewer, Page, Text, View, Document, StyleSheet, BlobProvider } from '@react-pdf/renderer';
+import PostUploader from './PostUploader';
+import TimelineUrl from './TimelineUrl';
 
 // Create styles
 const styles = StyleSheet.create({
@@ -19,45 +16,57 @@ const styles = StyleSheet.create({
   }
 });
 
-// Create Document Component
+// Create Document Component - Need to integrate with timeline later
 const MyDocument = () => (
-    <PDFViewer>
-        <Document>
-            <Page size="A4" style={styles.page}>
-            <View style={styles.section}>
-                <Text>Section #1</Text>
-            </View>
-            <View style={styles.section}>
-                <Text>Section #2</Text>
-            </View>
-            </Page>
-    </Document>
-  </PDFViewer>
+  <Document>
+    <Page size="A4" style={styles.page}>
+      <View style={styles.section}>
+        <Text>Section #1</Text>
+      </View>
+      <View style={styles.section}>
+        <Text>Section #2</Text>
+      </View>
+    </Page>
+  </Document>
+
+//// Getting a confusing issue with basename and useContext
+//   <Document>
+//     <Page size="A4" style={styles.page}>
+//       <View style={styles.section}>
+//       <PostUploader />
+//       </View>
+//     </Page>
+//   </Document>
 );
 
-// const testRender = () => {
-//     // use react createRoot to render component on the client side
-//     const container = document.getElementById('test');
-//     const root = createRoot(container);
-//     root.render(<MyDocument />);
-// // );
-// }
+const PDFGenerator = () => (
+  <BlobProvider document={<MyDocument />}>
+    {({ blob, url, loading, error }) => {
+      if (loading) {
+        return <p>Loading...</p>;
+      }
 
-const testRender = async () => {
-    // Render the component to a PDF
-    const pdfBlob = await render(<MyDocument />).toBlob();
-  
-    // Create a download link
-    const downloadLink = document.createElement('a');
-    downloadLink.href = URL.createObjectURL(pdfBlob);
-    downloadLink.download = 'document.pdf';
-  
-    // Append the link to the document and trigger the click event
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-  
-    // Remove the link from the document
-    document.body.removeChild(downloadLink);
-  };
+      if (error) {
+        return <p>Error generating PDF: {error.toString()}</p>;
+      }
 
-export default testRender;
+      // Render a download link when the PDF is ready
+      return (
+        <a href={url} download="document.pdf">
+          Download PDF
+        </a>
+      );
+    }}
+  </BlobProvider>
+);
+
+const PDFExporter = () => (
+  <div>
+    <PDFViewer style={{ width: '100%', height: '100vh' }}>
+      <MyDocument />
+    </PDFViewer>
+    <PDFGenerator />
+  </div>
+);
+
+export default PDFExporter;
