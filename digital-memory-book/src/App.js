@@ -13,6 +13,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import DigitalTimeline from "./DigitalTimeline";
 import PostUploader from "./PostUploader";
 import FamilyView from "./FamilyView";
+import PhotoBook from "./PhotoBook";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/timelinecreation" element={<DigitalTimeline/>} />
         <Route path="/timeline" element={<PostUploader/>} />
         <Route path="/family" element={<FamilyView/>} />
+        <Route path="/photobook" element={<PhotoBook/>} />
       </Routes>
     </BrowserRouter>
   );
