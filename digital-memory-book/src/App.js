@@ -11,8 +11,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import DigitalTimeline from "./DigitalTimeline";
-import PostUploader from "./PostUploader";
 import FamilyView from "./FamilyView";
+
+import PostUploaderV2 from "./PostUploaderV2";
+
+import Post from "./Post";
 
 function App() {
   return (
@@ -26,7 +29,8 @@ function App() {
         <Route path="/ourmission" element={<OurMission />} />
         <Route path="/meetus" element={<MeetTheCreators />} />
         <Route path="/timelinecreation" element={<DigitalTimeline/>} />
-        <Route path="/timeline" element={<PostUploader/>} />
+        <Route path="/timeline" element={<Post/>} />
+        <Route path="/addpost" element={<PostUploaderV2/>} />
         <Route path="/family" element={<FamilyView/>} />
       </Routes>
     </BrowserRouter>
