@@ -9,7 +9,6 @@ import OurMission from "./OurMission";
 import MeetTheCreators from "./MeetTheCreators";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-
 import DigitalTimeline from "./DigitalTimeline";
 import FamilyView from "./FamilyView";
 

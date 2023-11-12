@@ -68,13 +68,14 @@ class PostUploader extends Component {
       const newDate = new Date(dateValue);
       const offset = newDate.getTimezoneOffset();
       newDate.setMinutes(newDate.getMinutes() + offset);
-
+  
       if (!isNaN(newDate)) {
         this.setState((prevState) => ({
           formData: {
             ...prevState.formData,
             date: newDate,
           },
+          selectedUploadDate: newDate.toISOString().substring(0, 10), // Update selectedUploadDate
         }));
       }
     } catch (error) {
@@ -90,7 +91,7 @@ class PostUploader extends Component {
         ...this.state.formData,
         date: this.state.formData.date || new Date(),
       };
-
+      
       this.setState((prevState) => ({
         allItems: [...prevState.allItems, newPost],
         showPopup: !prevState.showPopup,
@@ -118,6 +119,7 @@ class PostUploader extends Component {
   handleEditDateChange = (e) => {
     this.setState({
       editedDate: e.target.value
+      
     });
   };
 
@@ -128,11 +130,15 @@ class PostUploader extends Component {
   };
 
   handleEditPostDate = (index) => {
-    const editedDate = this.state.allItems[index].date;
+    const editedDate = new Date(this.state.allItems[index].date);
+    editedDate.setDate(editedDate.getDate() );
+  
+    const editedDateFormatted = editedDate.toISOString().slice(0, 10);
+  
     this.setState({
       editMode: true,
-      editedDate: editedDate.toISOString().slice(0, 16),
-      editedCaption: this.state.allItems[index].description, // Set the editedCaption
+      editedDate: editedDateFormatted,
+      editedCaption: this.state.allItems[index].description, 
       editedIndex: index,
     });
   };
@@ -191,16 +197,11 @@ class PostUploader extends Component {
       boxShadow: '0 4px 4px rgb(0 0 0 / 0.4)',
     };
 
-    const button = {
-      display: 'inline-block',
-      padding: '10px 20px',
-      margin: '2px',
-      background: 'blue',
-      color: 'white',
-      textDecoration: 'none',
-      borderRadius: '5px',
-      border: '1px solid black',
-      cursor: 'pointer',
+    const postDescStyle = {
+      verticalAlign: 'top', 
+      flex: '1', 
+      width: '250px', 
+      height: '145px' 
     };
 
     const postStyle = {
@@ -211,6 +212,18 @@ class PostUploader extends Component {
       wordWrap: 'break-word',
       maxWidth: 'max-content',
       margin: '15px',
+    };
+
+    const button = {
+      display: 'inline-block',
+      padding: '10px 20px',
+      margin: '2px',
+      background: 'blue',
+      color: 'white',
+      textDecoration: 'none',
+      borderRadius: '5px',
+      border: '1px solid black',
+      cursor: 'pointer',
     };
 
     const imageUploadBox = {
@@ -309,7 +322,11 @@ class PostUploader extends Component {
                 <input
                   type="date"
                   onChange={this.handleDateChange}
-                  value={new Date().toISOString().substring(0, 10)}
+                  value={this.state.formData.date ? this.state.formData.date.toISOString().substring(0, 10) : (() => {
+                    const currentDate = new Date();
+                    currentDate.setDate(currentDate.getDate());
+                    return currentDate.toISOString().substring(0, 10);
+                  })()}
                 />
               </span>
             </div>
@@ -329,7 +346,7 @@ class PostUploader extends Component {
                     <textarea value={this.state.editedCaption} onChange={this.handleEditCaptionChange} style={descriptionBox} />
                     <input
                       type="date"
-                      value={this.state.editedDate}
+                      value={this.state.editedDate || new Date().toISOString().slice(0, 10)}
                       onChange={this.handleEditDateChange}
                     />
                     <button className="update-button" onClick={() => this.toggleEditMode(index)}>Update</button>
@@ -340,7 +357,7 @@ class PostUploader extends Component {
                     )}
                   </div>
                 ) : (
-                  <div style={{ verticalAlign: 'top', flex: '1', width: '250px', height: '145px' }}>
+                  <div style={postDescStyle}>
                     {item.description}
                   </div>
                 )}
