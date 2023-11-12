@@ -197,16 +197,11 @@ class PostUploader extends Component {
       boxShadow: '0 4px 4px rgb(0 0 0 / 0.4)',
     };
 
-    const button = {
-      display: 'inline-block',
-      padding: '10px 20px',
-      margin: '2px',
-      background: 'blue',
-      color: 'white',
-      textDecoration: 'none',
-      borderRadius: '5px',
-      border: '1px solid black',
-      cursor: 'pointer',
+    const postDescStyle = {
+      verticalAlign: 'top', 
+      flex: '1', 
+      width: '250px', 
+      height: '145px' 
     };
 
     const postStyle = {
@@ -217,6 +212,18 @@ class PostUploader extends Component {
       wordWrap: 'break-word',
       maxWidth: 'max-content',
       margin: '15px',
+    };
+
+    const button = {
+      display: 'inline-block',
+      padding: '10px 20px',
+      margin: '2px',
+      background: 'blue',
+      color: 'white',
+      textDecoration: 'none',
+      borderRadius: '5px',
+      border: '1px solid black',
+      cursor: 'pointer',
     };
 
     const imageUploadBox = {
@@ -350,7 +357,7 @@ class PostUploader extends Component {
                     )}
                   </div>
                 ) : (
-                  <div style={{ verticalAlign: 'top', flex: '1', width: '250px', height: '145px' }}>
+                  <div style={postDescStyle}>
                     {item.description}
                   </div>
                 )}
