@@ -1,3 +1,5 @@
+// PhotoBook.js
+
 import React, { useState, useEffect } from "react";
 import {
   setDoc,
@@ -11,6 +13,7 @@ import {
 } from "firebase/firestore";
 import { db } from "./firebase";
 import { useNavigate } from "react-router-dom";
+import "./PhotoBook.css"; // Import the CSS file
 
 const PhotoBook = () => {
   const [posts, setPosts] = useState([]);
@@ -32,62 +35,11 @@ const PhotoBook = () => {
 
   useEffect(() => {
     fetchPosts();
-    const intervalId = setInterval(
-      () => {
-        fetchPosts();
-      },
-      30 * 1000 * 60
-    );
+    const intervalId = setInterval(() => {
+      fetchPosts();
+    }, 30 * 1000 * 60);
     return () => clearInterval(intervalId);
   }, []);
-
-  const postContainer = {
-    width: "50%",
-    margin: "0 auto",
-    padding: "20px",
-    border: "5px solid #ccc",
-    borderRadius: "10px",
-    overflowY: "auto",
-  };
-
-  const postHeading = {
-    fontSize: "24px",
-    fontWeight: "bold",
-    textAlign: "center",
-    padding: "10px 0",
-  };
-
-  const postItem = {
-    display: "flex",
-    flexDirection: "column",
-    marginBottom: "20px",
-    border: "4px solid #eeee",
-    padding: "10px",
-    borderRadius: "5px",
-  };
-
-  const postImage = {
-    width: "100%",
-    height: "auto",
-    maxHeight: "250px",
-    objectFit: "contain",
-    borderRadius: "5px",
-  };
-
-  const postDetails = {
-    marginTop: "10px",
-  };
-
-  const postCaption = {
-    fontSize: "16px",
-    fontWeight: "normal",
-    marginBottom: "5px",
-  };
-
-  const postDate = {
-    fontSize: "14px",
-    color: "#777",
-  };
 
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
@@ -103,18 +55,18 @@ const PhotoBook = () => {
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
   return (
-    <div onLoad={fetchPosts} style={postContainer}>
-      <h1 style={postHeading}>Photobook</h1>
+    <div id="post-container" onLoad={fetchPosts}>
+      <h1 className="post-heading">Photobook</h1>
       {currentPosts.map((post) => (
-        <div key={post.id} style={postItem}>
-          <img style={postImage} src={post.path} alt="Post" />
-          <div style={postDetails}>
-            <p style={postCaption}>{post.caption}</p>
-            <p style={postDate}>{post.date}</p>
+        <div key={post.id} className="post-item">
+          <img className="post-image" src={post.path} alt="Post" />
+          <div className="post-details">
+            <p className="post-caption">{post.caption}</p>
+            <p className="post-date">{post.date}</p>
           </div>
         </div>
       ))}
-      <div style={{ textAlign: "center" }}>
+      <div className="pagination">
         <button onClick={handlePrevPage} disabled={currentPage === 1}>
           Previous Page
         </button>
