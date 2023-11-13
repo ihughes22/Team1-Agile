@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Registration.css";
 import { useNavigate } from "react-router-dom";
 //import {Auth} from "./Backend/components/auth"
-import { auth } from "./Backend/config/firebase";
+import { auth } from "firebase";
 import {
   createUserWithEmailAndPassword,
     } from "firebase/auth";
