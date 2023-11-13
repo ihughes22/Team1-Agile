@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useRef } from 'react';
 import {
   setDoc,
   getDocs,
@@ -12,10 +13,109 @@ import {
 import { db } from './firebase';
 import { useNavigate } from 'react-router-dom';
 
+const Slideshow = ({ images, onClose, currentSlide, onNext, onPrev, intervalDuration }) => {
+
+  const [showEscapeMessage, setShowEscapeMessage] = useState(true);
+  const handleKeyDown = (e) => {
+    if (e.key === 'ArrowRight'|| e.key === ' ') {
+      e.preventDefault(); // Prevent the default space bar behavior
+      onNext();
+    } 
+    else if (e.key === 'ArrowLeft') {
+      onPrev();
+    }
+    else if (e.key === 'Escape') {
+
+      onClose();
+    }
+
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    const timeoutId = setTimeout(() => {
+      setShowEscapeMessage(false);
+      onNext();
+    }, intervalDuration);
+    const hideEscapeMessageTimeout = setTimeout(() => {
+      setShowEscapeMessage(false);
+    }, 2000); // Hide the escape message after 3 seconds
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      clearTimeout(hideEscapeMessageTimeout);
+      clearTimeout(timeoutId);
+    };
+  }, [currentSlide, onNext, onPrev, intervalDuration]);
+
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 999,
+      }}
+    >
+          {showEscapeMessage && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '10px',
+            left: 0,
+            width: '100%',
+            textAlign: 'center',
+            color: '#fff',
+          }}
+        >
+          Press "Escape" to exit fullscreen
+        </div>
+      )}
+      <img
+        src={images[currentSlide].path}
+        alt={`Slide ${currentSlide + 1}`}
+        style={{ width: '100%', height: '100%', objectFit: 'contain', backgroundColor: 'rgba(0, 0, 0, 1)',}}
+      />
+    </div>
+  );
+};
+
+
 const Post = () => {
   const [posts, setPosts] = useState([]);
   const [editingPostId, setEditingPostId] = useState(null);
   const [editedCaption, setEditedCaption] = useState('');
+  const [fullscreen, setFullscreen] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [slideshowActive, setSlideshowActive] = useState(false);
+  const [slideshowInterval, setSlideshowInterval] = useState(5000);
+  const [selectedInterval, setSelectedInterval] = useState(null);
+
+  const startSlideshow = () => {
+    setSlideshowActive(true);
+    setFullscreen(true);
+    setCurrentSlide(0);
+    setTimeout(handleSlideshowTimeout, slideshowInterval);
+  };
+
+  const handleSlideshowTimeout = () => {
+    if (slideshowActive) {
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % posts.length);
+      setTimeout(handleSlideshowTimeout, slideshowInterval);
+    }
+  };
+
+  const handleIntervalChange = (newInterval) => {
+    setSlideshowInterval(newInterval * 1000); // Convert to milliseconds
+    setSelectedInterval(newInterval);
+  };
+
+  const pauseSlideshow = () => {
+    setSlideshowActive(false);
+    setFullscreen(false);
+  };
+
 
   const navigate = useNavigate();
 
@@ -84,7 +184,7 @@ const Post = () => {
 
   const postContainer = {
     width: '50%',
-    margin: '0 auto', 
+    margin: '0 auto',
     padding: '20px',
     border: '5px solid #ccc',
     borderRadius: '10px',
@@ -106,7 +206,7 @@ const Post = () => {
     padding: '10px',
     borderRadius: '5px',
   };
-  
+
   const postImage = {
     width: '100%',
     height: 'auto',
@@ -114,23 +214,23 @@ const Post = () => {
     objectFit: 'contain',
     borderRadius: '5px',
   };
-  
+
   const postDetails = {
     marginTop: '10px',
   };
-  
+
   const postCaption = {
     fontSize: '16px',
     fontWeight: 'normal',
     marginBottom: '5px',
   };
-  
+
   const postDate = {
     fontSize: '14px',
-    color:'#777',
+    color: '#777',
   };
-  
-  const postEditButton ={
+
+  const postEditButton = {
     padding: '5px 10px',
     border: '1px solid #ccc',
     borderRadius: '5px',
@@ -150,10 +250,29 @@ const Post = () => {
       >
         Add Post
       </button>
+      <button
+        onClick={() => (slideshowActive ? pauseSlideshow() : startSlideshow())}
+        style={postEditButton}
+      >
+        {slideshowActive ? 'Pause Slideshow' : 'Start Slideshow'}
+      </button>
+      {[3, 5, 7, 10].map((interval) => (
+        <button
+          key={interval}
+          style={{
+            marginLeft: '5px',
+            backgroundColor: selectedInterval === interval ? '#ccc' : 'transparent',
+            border: 'none',
+          }}
+          onClick={() => handleIntervalChange(interval)}
+        >
+          {`${interval}s`}
+        </button>
+      ))}
       <h1 style={postHeading}>Posts</h1>
-      {posts.map((post) => (
+      {posts.map((post, index) => (
         <div key={post.id} style={postItem}>
-          <img style={postImage} src={post.path} alt="Post" />
+          <img style={postImage} src={post.path} alt={`Post ${index}`} />
           <div style={postDetails}>
             {editingPostId === post.id ? (
               <div>
@@ -162,8 +281,12 @@ const Post = () => {
                   value={editedCaption}
                   onChange={(e) => setEditedCaption(e.target.value)}
                 />
-                <button style = {postEditButton} onClick={() => handleSaveEdit(post.id)}>Save</button>
-                <button style = {postEditButton} onClick={handleCancelEdit}>Cancel</button>
+                <button style={postEditButton} onClick={() => handleSaveEdit(post.id)}>
+                  Save
+                </button>
+                <button style={postEditButton} onClick={handleCancelEdit}>
+                  Cancel
+                </button>
               </div>
             ) : (
               <div>
@@ -183,6 +306,19 @@ const Post = () => {
           </div>
         </div>
       ))}
+
+      {slideshowActive && fullscreen && (
+        <Slideshow
+          images={posts}
+          currentSlide={currentSlide}
+          intervalDuration={slideshowInterval}
+          onNext={() => setCurrentSlide((prevSlide) => (prevSlide + 1) % posts.length)}
+          onPrev={() =>
+            setCurrentSlide((prevSlide) => (prevSlide - 1 + posts.length) % posts.length)
+          }
+          onClose={pauseSlideshow}
+        />
+      )}
     </div>
   );
 };
