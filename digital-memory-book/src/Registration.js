@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import "./Registration.css";
 import { useNavigate } from "react-router-dom";
+//import {Auth} from "./Backend/components/auth"
+import { auth } from "./Backend/config/firebase";
+import {
+  createUserWithEmailAndPassword,
+    } from "firebase/auth";
+
+
 
 function Registration() {
   const [email, setEmail] = useState("");
@@ -10,14 +17,13 @@ function Registration() {
   const [isRegistered, setIsRegistered] = useState(false);
   const [registrationError, setRegistrationError] = useState("");
 
-  const navigate = useNavigate();
-
-  const handleRegister = () => {
+  const handleRegister = async () => {
     // Check if the email is valid.
     if (!isValidEmail(email)) {
       setRegistrationError("Invalid email address.");
       return;
     }
+
 
     // Check if the username is empty.
     if (!username) {
@@ -38,8 +44,21 @@ function Registration() {
       return;
     }
 
-    setUsername(username);
-    navigate("/timelinecreation");
+    try {
+      // Use the createUserWithEmailAndPassword function from auth.js to handle registration
+      await createUserWithEmailAndPassword(auth, email, password);
+      setIsRegistered(true);
+    } catch (error) {
+      setRegistrationError(error.message);
+    }
+
+    // Here you would typically send the registration data to your backend for processing.
+    setTimeout(() => {
+      setIsRegistered(true);
+      setUsername(username);
+    }, 1000);
+
+
   };
 
   const validatePassword = (password) => {
@@ -63,6 +82,7 @@ function Registration() {
     return emailRegex.test(email);
   };
 
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     setIsRegistered(false);
@@ -71,7 +91,7 @@ function Registration() {
     setPassword("");
     setPasswordConfirmation("");
     setRegistrationError("");
-    navigate("/");
+    navigate("/login");
   };
 
   return (
@@ -80,7 +100,7 @@ function Registration() {
         <div>
           <h2>Welcome, {username}!</h2>
           <button onClick={handleLogout}>Logout</button>
-          
+
         </div>
       ) : (
         <div>
@@ -119,6 +139,8 @@ function Registration() {
             />
           </div>
           <button onClick={handleRegister}>Register</button>
+          {/* <button onClick={Auth().signIn()}>Register</button> */}
+
         </div>
       )}
     </div>
@@ -126,4 +148,3 @@ function Registration() {
 }
 
 export default Registration;
-
