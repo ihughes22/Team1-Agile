@@ -2,12 +2,13 @@
 import React, { useState } from "react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
+import { auth } from "./firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
-function Login() {
+function Login({ setIsAuth, setUsernamee }) {
   const [username, setUsername] = useState("");
   const [loginText, setLoginText] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const navigate = useNavigate();
 
@@ -17,17 +18,21 @@ function Login() {
 
   const handleLogin = () => {
     // Simulate a login by checking the username and password.
-    if (username === "yourUsername" && password === "yourPassword") {
+    signInWithEmailAndPassword(auth, username, password)
+    .then((userCredential) => {
+      // Signed in 
       navigate("/timelinecreation");
-    } else {
+      localStorage.setItem("isAuth", true);
+      setIsAuth(true);
+    })
+    .catch(() => {
       setLoginText(
-        "The username/password you entered is invalid or does not exist.",
+        "The email/password you entered is invalid or does not exist.",
       );
-    }
+    });
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
     setUsername("");
     setPassword("");
     setLoginText("");
@@ -36,19 +41,13 @@ function Login() {
   return (
     <div className="Login">
       <div className="login-box">
-        {isLoggedIn ? (
-          <div>
-            <h2>Welcome, {username}!</h2>
-            <button onClick={handleLogout}>Logout</button>
-          </div>
-        ) : (
           <div>
             <h2>Login</h2>
             <p>{loginText}</p>
             <div>
               <input
                 type="text"
-                placeholder="Username"
+                placeholder="Email"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
@@ -65,7 +64,6 @@ function Login() {
             <button onClick={handleLogin}>Login</button>
             <button onClick={handleClick}>Register</button>
           </div>
-        )}
       </div>
     </div>
   );

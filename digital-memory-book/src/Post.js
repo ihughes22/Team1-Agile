@@ -82,7 +82,7 @@ const Slideshow = ({ images, onClose, currentSlide, onNext, onPrev, intervalDura
 };
 
 
-const Post = () => {
+const Post = ({ isAuth }) => {
   const [posts, setPosts] = useState([]);
   const [editingPostId, setEditingPostId] = useState(null);
   const [editedCaption, setEditedCaption] = useState('');
@@ -132,6 +132,20 @@ const Post = () => {
     navigate('/addpost');
   };
 
+  const handleClose = () => {
+    navigate("/photobook");
+  };
+
+  const viewFamily = () => {
+    navigate("/family");
+  };
+
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, []);
+
   useEffect(() => {
     // Fetch posts on component mount
     fetchPosts();
@@ -174,12 +188,16 @@ const Post = () => {
 
   const handleDeletePost = async (postId) => {
     // Implement logic to delete post from Firestore
-    const postsRef = doc(db, 'posts', postId);
+    const confirmRemove = window.confirm("Are you sure you want to delete this post?");
 
-    // Delete the post
-    await deleteDoc(postsRef);
-    // Fetch posts again after deletion
-    fetchPosts();
+    if(confirmRemove){
+      const postsRef = doc(db, 'posts', postId);
+
+      // Delete the post
+      await deleteDoc(postsRef);
+      // Fetch posts again after deletion
+      fetchPosts();
+    }
   };
 
   const postContainer = {
@@ -232,6 +250,23 @@ const Post = () => {
 
   const postEditButton = {
     padding: '5px 10px',
+    margin: '3px',
+    border: '1px solid #ccc',
+    borderRadius: '5px',
+    cursor: 'pointer',
+  };
+
+  const postEditButton2 = {
+    padding: '5px 10px',
+    marginLeft: '350px',
+    border: '1px solid #ccc',
+    borderRadius: '5px',
+    cursor: 'pointer',
+  };
+
+  const postEditButton3 = {
+    padding: '5px 10px',
+    marginLeft: '437px',
     border: '1px solid #ccc',
     borderRadius: '5px',
     cursor: 'pointer',
@@ -269,6 +304,9 @@ const Post = () => {
           {`${interval}s`}
         </button>
       ))}
+      <button onClick = {viewFamily} style = {postEditButton3}>
+        View Family
+      </button>
       <h1 style={postHeading}>Posts</h1>
       {posts.map((post, index) => (
         <div key={post.id} style={postItem}>
@@ -319,6 +357,7 @@ const Post = () => {
           onClose={pauseSlideshow}
         />
       )}
+      <button style={postEditButton2} onClick={handleClose}>Close the Final Chapter</button>
     </div>
   );
 };

@@ -12,7 +12,8 @@ import { db } from "./firebase";
 import { v4 } from "uuid";
 import { storage } from "./firebase";
 
-function PostUploaderV2 (){
+
+function PostUploaderV2 ({ isAuth }){
     const maxChar = 230;
 
     const [image, setImage] = useState(null);
@@ -74,6 +75,12 @@ function PostUploaderV2 (){
             navigate("/timeline");
         }
     }
+
+    useEffect(() => {
+      if (!isAuth) {
+        navigate("/login");
+      }
+    }, []);
 
     const postImageStyle = {
         border: '5px solid #fff',

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 
-const Home = () => {
+const Home = ({ isAuth}) => {
   const pageStyles = {
     textAlign: 'center',
     padding: '20px',
@@ -43,7 +43,12 @@ const Home = () => {
       <div>
         <h1 style={headingStyles}>Welcome to My Memory Book Software</h1>
         <p style={subheadingStyles}>Capture and relive your memories with ease.</p>
-        <button onClick = {handleClick2} style={loginButtonStyles}>Log In</button>
+        {!isAuth ? (
+          <button onClick = {handleClick2} style={loginButtonStyles}>Log In</button>
+        ) :
+        (
+          <p style={subheadingStyles}>Glad you're here!</p>
+        )}
       </div>
     </div>
   );

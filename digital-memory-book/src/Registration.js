@@ -1,33 +1,21 @@
 import React, { useState } from "react";
 import "./Registration.css";
 import { useNavigate } from "react-router-dom";
-//import {Auth} from "./Backend/components/auth"
 import { auth } from "./firebase";
-import {
-  createUserWithEmailAndPassword,
-    } from "firebase/auth";
+import {createUserWithEmailAndPassword } from "firebase/auth";
 
 
 
 function Registration() {
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [isRegistered, setIsRegistered] = useState(false);
   const [registrationError, setRegistrationError] = useState("");
 
   const handleRegister = async () => {
     // Check if the email is valid.
     if (!isValidEmail(email)) {
       setRegistrationError("Invalid email address.");
-      return;
-    }
-
-
-    // Check if the username is empty.
-    if (!username) {
-      setRegistrationError("Please enter a username.");
       return;
     }
 
@@ -47,18 +35,12 @@ function Registration() {
     try {
       // Use the createUserWithEmailAndPassword function from auth.js to handle registration
       await createUserWithEmailAndPassword(auth, email, password);
-      setIsRegistered(true);
-    } catch (error) {
+    } 
+    catch (error) {
       setRegistrationError(error.message);
     }
 
-    // Here you would typically send the registration data to your backend for processing.
-    setTimeout(() => {
-      setIsRegistered(true);
-      setUsername(username);
-    }, 1000);
-
-
+    handleLogout();
   };
 
   const validatePassword = (password) => {
@@ -76,8 +58,6 @@ function Registration() {
   };
 
   const isValidEmail = (email) => {
-    // You can implement your own email validation logic here.
-    // For a basic check, you can use regular expressions.
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
     return emailRegex.test(email);
   };
@@ -85,9 +65,7 @@ function Registration() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    setIsRegistered(false);
     setEmail("");
-    setUsername("");
     setPassword("");
     setPasswordConfirmation("");
     setRegistrationError("");
@@ -96,13 +74,6 @@ function Registration() {
 
   return (
     <div className="RegistrationPage">
-      {isRegistered ? (
-        <div>
-          <h2>Welcome, {username}!</h2>
-          <button onClick={handleLogout}>Logout</button>
-
-        </div>
-      ) : (
         <div>
           <h2>Register</h2>
           <p>{registrationError}</p>
@@ -112,14 +83,6 @@ function Registration() {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div>
-            <input
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div>
@@ -139,10 +102,7 @@ function Registration() {
             />
           </div>
           <button onClick={handleRegister}>Register</button>
-          {/* <button onClick={Auth().signIn()}>Register</button> */}
-
         </div>
-      )}
     </div>
   );
 }

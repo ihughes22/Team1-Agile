@@ -34,13 +34,12 @@ const ContactUs = () => {
   };
 
   const submitButtonStyles = {
-    background: '#0073e6',
-    color: '#fff',
-    border: 'none',
-    padding: '10px 20px',
+    padding: '5px 10px',
+    margin: '3px',
+    border: '1px solid #ccc',
     borderRadius: '5px',
-    fontSize: '20px',
     cursor: 'pointer',
+    color: 'black',
   };
 
   return (

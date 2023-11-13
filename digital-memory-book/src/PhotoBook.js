@@ -15,7 +15,7 @@ import { db } from "./firebase";
 import { useNavigate } from "react-router-dom";
 import "./PhotoBook.css"; // Import the CSS file
 
-const PhotoBook = () => {
+const PhotoBook = ({ isAuth }) => {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 1;
@@ -39,6 +39,13 @@ const PhotoBook = () => {
       fetchPosts();
     }, 30 * 1000 * 60);
     return () => clearInterval(intervalId);
+  }, []);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
   }, []);
 
   const handlePrevPage = () => {
