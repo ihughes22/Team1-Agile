@@ -35,12 +35,11 @@ function Registration() {
     try {
       // Use the createUserWithEmailAndPassword function from auth.js to handle registration
       await createUserWithEmailAndPassword(auth, email, password);
+      handleLogout();
     } 
     catch (error) {
       setRegistrationError(error.message);
     }
-
-    handleLogout();
   };
 
   const validatePassword = (password) => {
