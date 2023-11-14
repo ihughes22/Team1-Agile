@@ -18,6 +18,10 @@
 
 1. `npm install react-bootstrap bootstrap`
 
+## Firebase Setup
+
+1. `npm install firebase`
+
 ## Optional: JS Formatting
 
 1. to install prettier locally
