@@ -44,13 +44,11 @@ test('renders FamilyView page', () => {
       );
         const inviteButton = screen.getByText('Invite Family Member');
       fireEvent.click(inviteButton);
-      const inviteMethodDropdown = screen.getByRole('combobox');
-      fireEvent.change(inviteMethodDropdown, { target: { value: 'email' } });
       const emailInput = screen.getByRole('textbox', { name: '' });
       fireEvent.change(emailInput, { target: { value: 'valid@example.com' } });
       const inviteMemberButton = screen.getByText('Invite Member');
       fireEvent.click(inviteMemberButton);
-      expect(global.alert).toHaveBeenCalledWith('Invitation sent to valid@example.com using email');
+      expect(global.alert).toHaveBeenCalledWith('Invitation sent to valid@example.com');
       
     });
   });
