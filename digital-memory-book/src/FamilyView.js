@@ -20,12 +20,73 @@ import {
 const FamilyView = ({ isAuth }) => {
   Modal.setAppElement('#root'); 
 
+  const [showPasswordChange, setShowPasswordChange] = useState(false);
   const [familyMembers, setFamilyMembers] = useState([]);
   const [inviteModalIsOpen, setInviteModalIsOpen] = useState(false);
   const [inviteValue, setInviteValue] = useState('');
   const [emailError, setEmailError] = useState('');
   const [code, setCode] = useState(localStorage.getItem("code"));
   const [uid, setUid] = useState(localStorage.getItem("uid"));
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [passwordChangeError, setPasswordChangeError] = useState('');
+
+  const showPasswordChangeFields = () => {
+    setShowPasswordChange(true);
+    setOldPassword('');
+    setNewPassword('');
+    setConfirmNewPassword('');
+    setPasswordChangeError('');
+  };
+
+  const changeFamilyPassword = async () => {
+
+    const userRef3 = collection(db, 'families');
+    const famz = await getDocs(userRef3);
+    
+    var password = "";
+    
+    famz.forEach((doc) => {
+      const ddata = doc.data();
+      
+      if(ddata.code === code){
+        password = ddata.password;
+      }
+    });
+
+    // Check if old password matches the current password
+    if (oldPassword !== password) {
+      setPasswordChangeError('Old password is incorrect');
+      return;
+    }
+
+    // Check if new password matches confirm password
+    if (newPassword !== confirmNewPassword) {
+      setPasswordChangeError('New passwords do not match');
+      return;
+    }
+    
+    famz.forEach(async (docz) => {
+      const ddata = docz.data();
+
+      if(ddata.code === code){
+        const getUser = doc(db, 'families', docz.id);
+        await updateDoc(getUser, {
+          password: newPassword,
+        });
+      }
+    });
+
+    alert('Password changed successfully'); 
+
+    setShowPasswordChange(false);
+    setOldPassword('');
+    setNewPassword('');
+    setConfirmNewPassword('');
+    setPasswordChangeError('');
+  };
+
 
   const openInviteModal = () => {
     setInviteModalIsOpen(true);
@@ -133,7 +194,43 @@ const FamilyView = ({ isAuth }) => {
       <p> Your family code is: {code}</p>
       <button style = {button} onClick={backToTimeline}>Back to Timeline</button>
       <button style = {button} onClick={openInviteModal}>Invite Family Member</button>
+      <button style={button} onClick={showPasswordChangeFields}>
+        Change Family Password
+      </button>
 
+      {/* Password change fields - conditional rendering */}
+      {showPasswordChange && (
+        <div>
+          <div>
+            <label style={{ margin: '5px' }}>Old Password:</label>
+            <input
+              type="password"
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
+            />
+          </div>
+          <div>
+            <label style={{ margin: '5px' }}>New Password:</label>
+            <input
+              type="password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
+          </div>
+          <div>
+            <label style={{ margin: '5px' }}>Confirm New Password:</label>
+            <input
+              type="password"
+              value={confirmNewPassword}
+              onChange={(e) => setConfirmNewPassword(e.target.value)}
+            />
+          </div>
+          <p style={{ color: 'red' }}>{passwordChangeError}</p>
+          <button style={button} onClick={changeFamilyPassword}>
+            Save New Password
+          </button>
+        </div>
+      )}
       <div>
         <h3>Family Members in the Timeline</h3>
         <ul style={{ listStyle: 'none', padding: 0 }}>

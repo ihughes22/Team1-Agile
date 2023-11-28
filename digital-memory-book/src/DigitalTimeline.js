@@ -8,6 +8,7 @@ const DigitalTimeline = ({ isAuth }) => {
   const [enteredName, setEnteredName] = useState("");
   const [familyCode, setFamilyCode] = useState("");
   const [familyE, setFamilyE] = useState(false);
+  const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [uid, setUid] = useState(localStorage.getItem("uid"));
   const navigate = useNavigate();
@@ -28,24 +29,39 @@ const DigitalTimeline = ({ isAuth }) => {
     setFamilyCode(event.target.value);
   };
 
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
   const userRef = collection(db, 'families');
 
   const saveNewFamily = async () => {
-    const userRef2 = collection(db, 'users');
-    const q2 = query(userRef2, where("uid", "==", uid));
-
-    await getUsers2(q2);
-
-    await addDoc(userRef, {
-      code: uid, 
-      name: enteredName,
-    });
-
-    localStorage.setItem("code", uid);
-    localStorage.setItem("webName", enteredName);
-
-    navigate("/timeline");
+    const q = query(userRef, where("code", "==", uid));
+    familyHelp(q);
   };
+
+  const familyHelp = async (q) => {
+    const querySnapshot = await getDocs(q);
+    if(querySnapshot.size == 0){
+      const userRef2 = collection(db, 'users');
+      const q2 = query(userRef2, where("uid", "==", uid));
+
+      await getUsers2(q2);
+
+      await addDoc(userRef, {
+        code: uid, 
+        name: enteredName,
+        password: password,
+      });
+
+      localStorage.setItem("code", uid);
+      localStorage.setItem("webName", enteredName);
+
+      navigate("/timeline");
+    }else{
+      setMessage("You already created a family!");
+    }
+  }
 
   const joinFamily = () => {
     // Perform actions with familyCode for joining an existing family
@@ -69,9 +85,9 @@ const DigitalTimeline = ({ isAuth }) => {
     const querySnapshot3 = await getDocs(qe);
     querySnapshot3.forEach(async (user) => {
       const getUser = doc(db, 'users', user.id);
-      await updateDoc(getUser, {
-       code: familyCode,
-      });
+        await updateDoc(getUser, {
+          code: familyCode,
+        });
      });
   };
 
@@ -92,10 +108,14 @@ const DigitalTimeline = ({ isAuth }) => {
     }else{
       querySnapshot.forEach(async (user) => {
         const dddata = user.data();
-        console.log(dddata.name);
-        localStorage.setItem("webName", dddata.name);
+        if(dddata.password !== password){
+          setMessage("Invalid Password");
+        }
+        else{
+          localStorage.setItem("webName", dddata.name);
+          setFamilyE(true);
+        }
      });
-     setFamilyE(true);
     }
   };
 
@@ -129,25 +149,38 @@ const DigitalTimeline = ({ isAuth }) => {
       <div style={buttonContainer}>
         {isCreatingNewFamily ? (
           <>
-            <p>Enter the name of your new family!</p>
+            <p>Enter the name and password for your new family!</p>
+            <p style = {{color: 'red'}}>{message}</p>
             <input
               type="text"
               placeholder="Family Name"
               value={enteredName}
               onChange={handleNameChange}
             />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={handlePasswordChange}
+            />
             <button style = {button2} onClick={saveNewFamily}>Save</button>
             <button style = {button2} onClick={handleEnterFamilyCode}>Back</button>
           </>
         ) : (
           <>
-            <p>Enter the family code to join!</p>
+            <p>Enter the family code and password to join!</p>
             <p style = {{color: 'red'}}>{message}</p>
             <input
               type="text"
               placeholder="Family Code"
               value={familyCode}
               onChange={handleFamilyCodeChange}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={handlePasswordChange}
             />
             <button style = {button2} onClick={joinFamily}>Join</button>
             <button style = {button2} onClick={handleCreateNewFamily}>Create New Family</button>
