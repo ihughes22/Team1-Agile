@@ -1,21 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Registration.css";
 import { useNavigate } from "react-router-dom";
 import { auth } from "./firebase";
 import {createUserWithEmailAndPassword } from "firebase/auth";
-
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "./firebase";
 
 
 function Registration() {
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [registrationError, setRegistrationError] = useState("");
+
+  const postsCollectionRef = collection(db, "users/");
+
+  const code = "";
 
   const handleRegister = async () => {
     // Check if the email is valid.
     if (!isValidEmail(email)) {
       setRegistrationError("Invalid email address.");
+      return;
+    }
+
+    if (username == "") {
+      setRegistrationError("Please enter a username.");
       return;
     }
 
@@ -34,12 +45,30 @@ function Registration() {
 
     try {
       // Use the createUserWithEmailAndPassword function from auth.js to handle registration
-      await createUserWithEmailAndPassword(auth, email, password);
+      await createUserWithEmailAndPassword(auth, email, password)
+      .then(data => {  
+        addUser(data.user.uid);
+      })
+      .catch(error => {
+         console.log(error);
+      });
+
       handleLogout();
     } 
     catch (error) {
       setRegistrationError(error.message);
     }
+  };
+
+  const addUser = async (uid) => {
+    await addDoc(postsCollectionRef, {
+      email,
+      username, 
+      uid,
+      code,
+    });
+
+    localStorage.setItem("uid", uid);
   };
 
   const validatePassword = (password) => {
@@ -66,6 +95,7 @@ function Registration() {
   const handleLogout = () => {
     setEmail("");
     setPassword("");
+    setUsername("");
     setPasswordConfirmation("");
     setRegistrationError("");
     navigate("/login");
@@ -82,6 +112,14 @@ function Registration() {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div>
+            <input
+              type="username"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div>

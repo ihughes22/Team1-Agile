@@ -3,20 +3,29 @@ import Unknown from './Photos/unknown2.jpg';
 import TrashCanIcon from './Photos/trashcan.png';
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
+import { db } from './firebase';
+import {
+  setDoc,
+  getDocs,
+  updateDoc,
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  Firestore, 
+  query, 
+  where,
+} from 'firebase/firestore';
 
 const FamilyView = ({ isAuth }) => {
   Modal.setAppElement('#root'); 
 
-  const [familyMembers, setFamilyMembers] = useState([
-    { id: 1, name: 'Joseph Slattery', photo: Unknown },
-    { id: 2, name: 'Mary Slattery', photo: Unknown },
-    { id: 3, name: 'Tabitha Slattery', photo: Unknown },
-    { id: 4, name: 'Gerald Slattery', photo: Unknown },
-  ]);
-
+  const [familyMembers, setFamilyMembers] = useState([]);
   const [inviteModalIsOpen, setInviteModalIsOpen] = useState(false);
   const [inviteValue, setInviteValue] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [code, setCode] = useState(localStorage.getItem("code"));
+  const [uid, setUid] = useState(localStorage.getItem("uid"));
 
   const openInviteModal = () => {
     setInviteModalIsOpen(true);
@@ -37,15 +46,28 @@ const FamilyView = ({ isAuth }) => {
     if (!isEmailValid(inviteValue)) {
       setEmailError('Invalid email address');
     } else {
-      // In a real application, you would send an invitation using inviteMethod and inviteValue.
-      // Here, we're just showing a message.
       alert(`Invitation sent to ${inviteValue}`);
       closeInviteModal();
     }
   };
 
   const removeMember = (id) => {
-    setFamilyMembers(familyMembers.filter((member) => member.id !== id));
+    const userRef2 = collection(db, 'users');
+    const q2 = query(userRef2, where("uid", "==", uid));
+
+    getUsers2(q2);
+
+    fetchUsers();
+  };
+
+  const getUsers2 = async (qe) => {
+    const querySnapshot3 = await getDocs(qe);
+    querySnapshot3.forEach(async (user) => {
+      const getUser = doc(db, 'users', user.id);
+      await updateDoc(getUser, {
+       code: "",
+      });
+     });
   };
 
   const navigate = useNavigate();
@@ -58,6 +80,35 @@ const FamilyView = ({ isAuth }) => {
   const backToTimeline = () => {
     navigate("/timeline");
   }
+
+  const fetchUsers = async () => {
+    const postsRef = collection(db, 'users/');
+    const postsData = await getDocs(postsRef);
+    
+    const matchingUsers = [];
+    postsData.forEach((doc) => {
+      const ddata = doc.data();
+      if(ddata.code == code){
+        matchingUsers.push({ id: doc.id, ...ddata })
+      }
+    });
+
+    setFamilyMembers(matchingUsers);
+  };
+
+
+  useEffect(() => {
+    // Fetch posts on component mount
+    fetchUsers();
+
+    // Set up a timer to fetch posts every 30 minutes
+    const intervalId = setInterval(() => {
+      fetchUsers();
+    }, 30 * 60 * 1000);
+
+    // Clean up the timer on component unmount
+    return () => clearInterval(intervalId);
+  }, []); // Empty dependency array ensures that this effect runs once on mount
 
   const centerContentStyle = {
     display: 'flex',
@@ -79,6 +130,7 @@ const FamilyView = ({ isAuth }) => {
   return (
     <div style={centerContentStyle}>
       <h2>My Family View</h2>
+      <p> Your family code is: {code}</p>
       <button style = {button} onClick={backToTimeline}>Back to Timeline</button>
       <button style = {button} onClick={openInviteModal}>Invite Family Member</button>
 
@@ -89,26 +141,28 @@ const FamilyView = ({ isAuth }) => {
           <li key={member.id} style={{ marginBottom: '10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <img
-                src={member.photo}
+                src={Unknown}
                 style={{ borderRadius: '75px', width: '50px', height: '50px', marginRight: '10px' }}
               />
-              {member.name}
+              {member.username}
             </div>
+            {member.uid === uid && (
             <img
-              src={TrashCanIcon}
-              alt="Remove"
-              style={{
-                cursor: 'pointer',
-                width: '20px',
-                height: '20px',
-              }}
-              onClick={() => {
-                const confirmRemove = window.confirm("Are you sure you want to remove this person?");
-                if (confirmRemove) {
-                  removeMember(member.id);
-                }
-              }}
-            />
+            src={TrashCanIcon}
+            alt="Remove"
+            style={{
+              cursor: 'pointer',
+              width: '20px',
+              height: '20px',
+            }}
+            onClick={() => {
+              const confirmRemove = window.confirm("Are you sure you want to remove this person?");
+              if (confirmRemove) {
+                removeMember(member.id);
+              }
+            }}
+          />
+          )}
           </li>
         ))}
         </ul>

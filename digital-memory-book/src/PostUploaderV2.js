@@ -2,7 +2,7 @@ import React, { useState, useEffect, Component } from "react";
 import ImageIcon from './Assets/ImageIcon.js';
 import "./PostUploader.css";
 import { useNavigate } from "react-router-dom";
-import { setDoc, getDocs, addDoc, collection, deleteDoc, doc, Firestore } from "firebase/firestore";
+import { setDoc, getDocs, addDoc, collection, deleteDoc, doc, Firestore, query, where } from "firebase/firestore";
 import {
     ref,
     uploadBytes,
@@ -19,16 +19,21 @@ function PostUploaderV2 ({ isAuth }){
     const [image, setImage] = useState(null);
     const [caption, setCaption] = useState("");
     const [date, setDate] = useState("");
-
+    const [code, setCode] = useState(localStorage.getItem("code"));
+    const [uid, setUid] = useState(localStorage.getItem("uid"));
     const [validationMessage, setMessage] = useState("");
 
     const postsCollectionRef = collection(db, "posts/");
-
+  
     const navigate = useNavigate();
 
     const handleImageChange = (event) => {
         setImage(event.target.files[0]);
     }
+
+    const handleCancel = () => {
+      navigate("/timeline");
+    };
 
     const handleCaptionChange = (event) => {
         if(event.target.value.length > maxChar){
@@ -45,11 +50,24 @@ function PostUploaderV2 ({ isAuth }){
     }
 
     const createPost = async (path) => {
+      const userRef1 = collection(db, 'users');
+      const q1 = query(userRef1, where("uid", "==", uid));
+      
+      const querySnapshot3 = await getDocs(q1);
+      querySnapshot3.forEach(async (user) => {
+        const ddata = user.data();
+        var author = ddata.username;
+        console.log(author);
+
         await addDoc(postsCollectionRef, {
           path,
           caption,
           date,
+          code,
+          uid,
+          author,
         });
+      });
       };
       
     const handleUpload = () => {
@@ -187,6 +205,7 @@ function PostUploaderV2 ({ isAuth }){
           <div>
             <div style={{ display: 'flex' }}>
               <button style = {button} id = "submit" type='submit' onClick={handleUpload}>Upload</button>
+              <button style={button} onClick={handleCancel}>Cancel</button>
             </div>
             <div style={postStyle}>
               {image ? (

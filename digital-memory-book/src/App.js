@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "./App.css";
 import Login from "./Login";
 import Registration from "./Registration";
@@ -25,10 +25,11 @@ import { auth } from "./firebase";
 
 function App() {
   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
+  const [uid, setUid] = useState(localStorage.getItem("uid"));
+  const [webName, setWebName] = useState(localStorage.getItem("webName"));
 
   const handleHomeClick = () => {
     if(isAuth){
-      console.log("in here!");
       window.location.pathname = "/timeline";
     }
     else{
@@ -40,6 +41,12 @@ function App() {
   const handleLoginClick = () => {
     window.location.pathname = "/login";
   };
+
+  useEffect(() => {
+    setWebName(localStorage.getItem("webName"));
+  }, []);
+
+
 
   const handleSignOutClick = () => {
     signOut(auth).then(() => {
@@ -53,10 +60,10 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navbar expand="lg" className="bg-body-tertiary" >
+      <Navbar style = {{border: '1px solid grey', margin: '5px'}} expand="lg" className="bg-body-tertiary" >
       <Container>
         <Navbar.Brand onClick={handleHomeClick}>
-          Digital Memory Book
+        {isAuth ? webName : 'Digital Memory Book'}
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

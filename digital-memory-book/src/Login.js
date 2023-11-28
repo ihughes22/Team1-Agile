@@ -4,8 +4,10 @@ import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { auth } from "./firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { db } from './firebase';
+import {collection, query, where, getDocs } from "firebase/firestore";
 
-function Login({ setIsAuth, setUsernamee }) {
+function Login({ setIsAuth }) {
   const [username, setUsername] = useState("");
   const [loginText, setLoginText] = useState("");
   const [password, setPassword] = useState("");
@@ -21,9 +23,15 @@ function Login({ setIsAuth, setUsernamee }) {
     signInWithEmailAndPassword(auth, username, password)
     .then((userCredential) => {
       // Signed in 
-      navigate("/timelinecreation");
       localStorage.setItem("isAuth", true);
+      localStorage.setItem("x", 1);
+      localStorage.setItem("uid", userCredential.user.uid);
       setIsAuth(true);
+
+      const userRef = collection(db, '/users');
+      const q = query(userRef, where("uid", "==", userCredential.user.uid));
+
+      getUsers(q);
     })
     .catch(() => {
       setLoginText(
@@ -32,10 +40,31 @@ function Login({ setIsAuth, setUsernamee }) {
     });
   };
 
-  const handleLogout = () => {
-    setUsername("");
-    setPassword("");
-    setLoginText("");
+  const getUsers = async (q) => {
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      const ddata = doc.data();
+      if(ddata.code != ""){
+        localStorage.setItem("code", ddata.code);
+        const famRef = collection(db, 'families');
+        const q2 = query(famRef, where("code", "==", ddata.code));
+
+        getFamilies(q2);
+
+        navigate("/timeline");
+      }
+      else{
+        navigate("/timelinecreation");
+      }
+    });
+  };
+
+  const getFamilies = async (q) => {
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(async (user) => {
+      const dddata = user.data();
+      localStorage.setItem("webName", dddata.name);
+    });
   };
 
   return (

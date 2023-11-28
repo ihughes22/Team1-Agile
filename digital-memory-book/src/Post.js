@@ -8,7 +8,9 @@ import {
   collection,
   deleteDoc,
   doc,
-  Firestore
+  Firestore, 
+  query,
+  where
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { useNavigate } from 'react-router-dom';
@@ -92,6 +94,9 @@ const Post = ({ isAuth }) => {
   const [slideshowInterval, setSlideshowInterval] = useState(5000);
   const [selectedInterval, setSelectedInterval] = useState(null);
 
+  const [code, setCode] = useState(localStorage.getItem("code"));
+  const [uid, setUid] = useState(localStorage.getItem("uid"));
+
   const startSlideshow = () => {
     setSlideshowActive(true);
     setFullscreen(true);
@@ -122,10 +127,17 @@ const Post = ({ isAuth }) => {
   const fetchPosts = async () => {
     const postsRef = collection(db, 'posts');
     const postsData = await getDocs(postsRef);
-    const postsArray = postsData.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
-    postsArray.sort((a, b) => new Date(b.date) - new Date(a.date));
-    setPosts(postsArray);
+    const matchingUsers = [];
+    postsData.forEach((doc) => {
+      const ddata = doc.data();
+      if(ddata.code == code){
+        matchingUsers.push({ id: doc.id, ...ddata })
+      }
+    });
+
+    matchingUsers.sort((a, b) => new Date(b.date) - new Date(a.date));
+    setPosts(matchingUsers);
   };
 
   const makePost = () => {
@@ -330,15 +342,23 @@ const Post = ({ isAuth }) => {
               <div>
                 <p style={postCaption}>{post.caption}</p>
                 <p style={postDate}>{post.date}</p>
-                <button
-                  style={postEditButton}
-                  onClick={() => handleEditPost(post.id, post.caption)}
-                >
-                  Edit Caption
-                </button>
-                <button style={postEditButton} onClick={() => handleDeletePost(post.id)}>
-                  Delete Post
-                </button>
+                <p style={postDate}>{"@" + post.author}</p>
+                {post.uid === uid && (
+            <>
+              <button
+                style={postEditButton}
+                onClick={() => handleEditPost(post.id, post.caption)}
+              >
+                Edit Caption
+              </button>
+              <button
+                style={postEditButton}
+                onClick={() => handleDeletePost(post.id)}
+              >
+                Delete Post
+              </button>
+            </>
+          )}
               </div>
             )}
           </div>

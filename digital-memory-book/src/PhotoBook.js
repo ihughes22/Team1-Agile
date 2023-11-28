@@ -16,19 +16,23 @@ import "./PhotoBook.css"; // Import the CSS file
 const PhotoBook = ({ isAuth }) => {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [code, setCode] = useState(localStorage.getItem("code"));
+  const [uid, setUid] = useState(localStorage.getItem("uid"));
   const postsPerPage = 1;
 
   const fetchPosts = async () => {
     const postsRef = collection(db, "posts");
     const postsData = await getDocs(postsRef);
-    const postsArray = postsData.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    const matchingUsers = [];
+    postsData.forEach((doc) => {
+      const ddata = doc.data();
+      if(ddata.code == code){
+        matchingUsers.push({ id: doc.id, ...ddata })
+      }
+    });
 
-    postsArray.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-    setPosts(postsArray);
+    matchingUsers.sort((a, b) => new Date(b.date) - new Date(a.date));
+    setPosts(matchingUsers);
   };
 
   useEffect(() => {

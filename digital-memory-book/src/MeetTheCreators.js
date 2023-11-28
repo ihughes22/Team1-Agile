@@ -4,37 +4,37 @@ const teamMembers = [
   {
     name: 'Isabel Hughes',
     role: 'Founder & CEO',
-    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    bio: 'Hi, my name is Isabel Hughes, and I am a senior Cybersecurity student with a minor in Computer Science. Over this past summer, I was introduced to agile through Scrum methodologies at my internship. I learned a lot about the whole overview of agile, sprints, and even got to participate in a PI planning event. I have also CAed for CS 347 (Software Development Process).',
   },
   {
     name: 'Rodney Wotton',
     role: 'Designer',
-    bio: 'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    bio: 'My name is Rodney Wotton. I am a computer science major in my final year. I am currently working part time as Desk Side Services (IT) for Royal Bank of Canada. During my internship at RBC over the summer, I developed an auto refresh software that scraped, parsed, and outputted specific HTML from our Desk Side Services website. I also developed a chrome extension that would notify me when my application installations completed. (We used this website to remotely install applications to users computers). Fun Fact: I like to video edit and have 8 fish!',
   },
   {
     name: 'Ethan Kleschinsky',
     role: 'Lead Developer',
-    bio: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',
+    bio: 'Pursuing a B.E. in Software Engineering, expected to graduate in May 2024. Undergraduate Researcher in the Health & AI Lab. Automation & Robotics Internship at Merck in Summer 2023. Not working on anything specific just yet! I share a birthday with Shawn Mendes',
   },
   {
     name: 'Jolene Ciccarone',
     role: 'Marketing Manager',
-    bio: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.',
+    bio: 'Hi! I am a 4/4 Software Engineering major. Over the past two summers, I have done research in AI/ML and Data Analysis, and have interned at a finance & pharma company. Currently, I am an Assistant to the ASC, a grader for MA 134 and an RA. I mainly have experience with python and java and am looking into learning more about app development. Something you probably would not know about me is that in my free time, I teach kids how to play Minecraft through CodeAdvantage.',
   },
   {
     name: 'Ashna Razdan',
     role: 'Content Writer',
-    bio: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.',
+    bio: 'Hi! My name is Ashna and I am a 4/4 Software Engineering major with a minor in Computer Science. I have some experience in full-stack development and mainly work in Java, JavaScript, and Python. I am currently working on some app development and am constantly learning new things! One fun fact about me is my favorite movie is Teen Beach Movie.',
   },
   {
     name: 'Zuting Chen',
     role: 'UX Researcher',
-    bio: 'Nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui.',
+    bio: 'Hello! I am a 4/4 undergraduate Software Engineer. I have had internship experience in Merck and Warner Bros. Discovery where I did a mix of frontend and backend. Eventually, I hope to be able to work with fullstack. As a hobby, I also love to draw!',
   },
   {
     name: 'Ahmad Chaabane',
     role: 'Support Specialist',
-    bio: 'In a sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor.',
+    bio: 'Hello, my name is Ahmad Chaabane. I am a 3rd year software engineering major. I do not have professional experience in the field other than a projects I have worked on my own time. I am currently working on a couple of projects with some friends to create a discord bot for music. I am a big fan of sport, specifically MMA and basketball. I am still currently learning MMA but I have been playing basketball all my life.',
   },
 ];
 
