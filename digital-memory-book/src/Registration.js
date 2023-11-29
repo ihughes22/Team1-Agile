@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import "./Registration.css";
 import { useNavigate } from "react-router-dom";
 import { auth } from "./firebase";
-import {createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "./firebase";
-
 
 function Registration() {
   const [email, setEmail] = useState("");
@@ -46,16 +44,15 @@ function Registration() {
     try {
       // Use the createUserWithEmailAndPassword function from auth.js to handle registration
       await createUserWithEmailAndPassword(auth, email, password)
-      .then(data => {  
-        addUser(data.user.uid);
-      })
-      .catch(error => {
-         console.log(error);
-      });
+        .then((data) => {
+          addUser(data.user.uid);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
       handleLogout();
-    } 
-    catch (error) {
+    } catch (error) {
       setRegistrationError(error.message);
     }
   };
@@ -63,7 +60,7 @@ function Registration() {
   const addUser = async (uid) => {
     await addDoc(postsCollectionRef, {
       email,
-      username, 
+      username,
       uid,
       code,
     });
@@ -102,44 +99,90 @@ function Registration() {
   };
 
   return (
-    <div className="RegistrationPage">
+    <div className="Login">
+      <div className="box">
+        <h2>Register</h2>
+        <p>{registrationError}</p>
         <div>
-          <h2>Register</h2>
-          <p>{registrationError}</p>
-          <div>
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div>
-            <input
-              type="username"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              value={passwordConfirmation}
-              onChange={(e) => setPasswordConfirmation(e.target.value)}
-            />
-          </div>
-          <button onClick={handleRegister}>Register</button>
+          <p style={{ textAlign: "left", marginBottom: 5, fontWeight: "bold" }}>
+            Email
+          </p>
+          <input
+            style={{
+              width: "100%",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "20px",
+              boxSizing: "border-box",
+            }}
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
+        <div>
+          <p style={{ textAlign: "left", marginBottom: 5, fontWeight: "bold" }}>
+            Username
+          </p>
+          <input
+            style={{
+              width: "100%",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "20px",
+              boxSizing: "border-box",
+            }}
+            type="username"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div>
+          <p style={{ textAlign: "left", marginBottom: 5, fontWeight: "bold" }}>
+            Password
+          </p>
+          <input
+            style={{
+              width: "100%",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "20px",
+              boxSizing: "border-box",
+            }}
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div>
+          <p style={{ textAlign: "left", marginBottom: 5, fontWeight: "bold" }}>
+            Confirm Password
+          </p>
+          <input
+            style={{
+              width: "100%",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "20px",
+              boxSizing: "border-box",
+            }}
+            type="password"
+            placeholder="Confirm Password"
+            value={passwordConfirmation}
+            onChange={(e) => setPasswordConfirmation(e.target.value)}
+          />
+        </div>
+        <button
+          onClick={handleRegister}
+          className="register-button"
+          style={{ marginTop: "20px" }}
+        >
+          Register
+        </button>
+      </div>
     </div>
   );
 }

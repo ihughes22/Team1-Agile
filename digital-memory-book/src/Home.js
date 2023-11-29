@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-
+import "./Interactable.css"
 const Home = ({ isAuth}) => {
   const pageStyles = {
     textAlign: 'center',
@@ -22,15 +22,6 @@ const Home = ({ isAuth}) => {
     marginBottom: '30px',
   };
 
-  const loginButtonStyles = {
-    background: '#0073e6',
-    color: '#fff',
-    border: 'none',
-    padding: '10px 20px',
-    borderRadius: '5px',
-    fontSize: '20px',
-    cursor: 'pointer',
-  };
 
   const navigate = useNavigate();
 
@@ -44,7 +35,7 @@ const Home = ({ isAuth}) => {
         <h1 style={headingStyles}>Welcome to My Memory Book Software</h1>
         <p style={subheadingStyles}>Capture and relive your memories with ease.</p>
         {!isAuth ? (
-          <button onClick = {handleClick2} style={loginButtonStyles}>Log In</button>
+          <button onClick = {handleClick2} className="login-button">Log In</button>
         ) :
         (
           <p style={subheadingStyles}>Glad you're here!</p>

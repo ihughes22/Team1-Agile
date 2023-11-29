@@ -1,4 +1,4 @@
-/* Login.css */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
 
 .Login {
   display: flex;
@@ -6,17 +6,18 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  font-family: Arial, sans-serif;
+  font-family: 'DM Sans', sans-serif;
 }
 
 .login-box {
   border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 40px; /* Increase padding for more height */
-  width: 300px; /* Increase width as needed */
+  border-radius: 20px; 
+  padding: 50px;
+  width: 600px; 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
+  background-color: #e5e6f4;
   text-align: center;
+  font-family: 'DM Sans', sans-serif;
 }
 
 .Login h2 {
@@ -31,21 +32,10 @@
   border-radius: 4px;
 }
 
-.Login button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin: 5px;
-}
-
-.Login button:hover {
-  background-color: #0056b3;
-}
-
-.Login p {
-  color: red;
-  font-weight: bold;
+.input-box {
+  width: 100%;
+  padding: 10px; /* Adjust padding based on your preference */
+  border: 1px solid #ccc;
+  border-radius: 10px; /* Add round edges */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }

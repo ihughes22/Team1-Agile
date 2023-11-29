@@ -1,0 +1,88 @@
+/* Import DM Sans font */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
+/* Button styles */
+.get-started-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 50px; 
+  background-color: #665DCB; 
+  color: #ffffff; 
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'DM Sans', sans-serif;
+  border-radius: 25px; 
+  background-color: #434DA1; 
+  color: #ffffff; 
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
+
+.register-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'DM Sans', sans-serif;
+  border-radius: 25px; 
+  background-color: #ffffff; 
+  color: #434DA1; 
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.Login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.box {
+  border: 1px solid #ccc;
+  border-radius: 20px; 
+  padding: 50px;
+  width: 600px; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #e5e6f4;
+  text-align: center;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.Login h2 {
+  margin-bottom: 20px;
+}
+
+.Login input {
+  padding: 10px;
+  margin: 5px 0;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.rounded-input{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    box-sizing: border-box;
+  }
