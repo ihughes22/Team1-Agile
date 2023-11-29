@@ -1,21 +1,6 @@
 /* Import DM Sans font */
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
 
-/* Button styles */
-.get-started-button {
-  display: inline-block;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
-  text-decoration: none;
-  border-radius: 50px; 
-  background-color: #665DCB; 
-  color: #ffffff; 
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
 .login-button {
   display: inline-block;
   padding: 10px 20px;

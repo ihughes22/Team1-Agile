@@ -4,16 +4,17 @@ import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useNavigate } from "react-router-dom";
+import "./Interactable.css";
 
 function NavbarTop() {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/')
+    navigate("/");
   };
 
   const handleClick2 = () => {
-    navigate('/Login')
+    navigate("/Login");
   };
 
   return (
@@ -23,13 +24,19 @@ function NavbarTop() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/" onClick = {handleClick}>Home</Nav.Link>
+            <Nav.Link href="/" onClick={handleClick}>
+              Home
+            </Nav.Link>
             <NavDropdown title="Resources">
-              <NavDropdown.Item href="/ourmission">Our Mission</NavDropdown.Item>
-              <NavDropdown.Item href="/meetus">Meet the Creators</NavDropdown.Item>
+              <NavDropdown.Item href="/ourmission">
+                Our Mission
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/meetus">
+                Meet the Creators
+              </NavDropdown.Item>
             </NavDropdown>
             <Nav.Link href="/contactus">Contact</Nav.Link>
-            <Button variant="outline-success" onClick = {handleClick2}>Get Started</Button>
+            <Button onClick={handleClick2}>Get Started</Button>
           </Nav>
         </Navbar.Collapse>
       </Container>
