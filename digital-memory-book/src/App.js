@@ -86,7 +86,24 @@ function App() {
               </NavDropdown>
               <Nav.Link href="/contactus">Contact</Nav.Link>
               {isAuth ? (
-                <Button variant="outline-danger" onClick={handleSignOutClick}>
+                <Button
+                  style={{
+                    display: "inline-block",
+                    padding: "10px 10spx",
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    textDecoration: "none",
+                    fontFamily: "DM Sans, sans-serif",
+                    borderRadius: "25px",
+                    backgroundColor: "#434DA1",
+                    color: "#ffffff",
+                    cursor: "pointer",
+                    transition: "background-color 0.3s ease",
+                    marginRight: "10px",
+                  }}
+                  onClick={handleSignOutClick}
+                >
                   Sign Out
                 </Button>
               ) : (
