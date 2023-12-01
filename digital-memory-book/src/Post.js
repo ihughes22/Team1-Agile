@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import backgroundImage from './Photos/triangle-mosaic.png'
 import { useRef } from 'react';
 import {
   setDoc,
@@ -14,6 +15,15 @@ import {
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { useNavigate } from 'react-router-dom';
+
+const pageStyles = {
+    padding: '20px',
+    backgroundImage: `url(${backgroundImage})`,  // Add this line
+    backgroundSize: '500px 500px',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'repeat',
+    height: '100%',
+  };
 
 const Slideshow = ({ images, onClose, currentSlide, onNext, onPrev, intervalDuration }) => {
 
@@ -97,7 +107,13 @@ const Post = ({ isAuth }) => {
   const [code, setCode] = useState(localStorage.getItem("code"));
   const [uid, setUid] = useState(localStorage.getItem("uid"));
 
+  const [errorMessage, setErrorMessage] = useState('');
+
   const startSlideshow = () => {
+      if (posts.length === 0) {
+        setErrorMessage('There are no posts to start a slideshow.');
+        return;
+      }
     setSlideshowActive(true);
     setFullscreen(true);
     setCurrentSlide(0);
@@ -213,6 +229,7 @@ const Post = ({ isAuth }) => {
   };
 
   const postContainer = {
+    backgroundColor: 'white',
     width: '50%',
     margin: '0 auto',
     padding: '20px',
@@ -229,7 +246,7 @@ const Post = ({ isAuth }) => {
   };
 
   const postItem = {
-    display: 'flex',
+    sdisplay: 'flex',
     flexDirection: 'column',
     marginBottom: '20px',
     border: '4px solid #eeee',
@@ -266,6 +283,7 @@ const Post = ({ isAuth }) => {
     border: '1px solid #ccc',
     borderRadius: '5px',
     cursor: 'pointer',
+    
   };
 
   const postEditButton2 = {
@@ -274,6 +292,7 @@ const Post = ({ isAuth }) => {
     border: '1px solid #ccc',
     borderRadius: '5px',
     cursor: 'pointer',
+    margin: '10 auto',
   };
 
   const postEditButton3 = {
@@ -282,10 +301,18 @@ const Post = ({ isAuth }) => {
     border: '1px solid #ccc',
     borderRadius: '5px',
     cursor: 'pointer',
+    margin: '10s auto',
   };
 
   return (
+    <div style={pageStyles}>
     <div onLoad={fetchPosts} style={postContainer}>
+      {/* Display error message below the button */}
+      {errorMessage && (
+          <div style={{ color: 'red', marginTop: '10px' }}>
+            {errorMessage}
+          </div>
+        )}
       <button
         onClick={makePost}
         style={{
@@ -303,6 +330,11 @@ const Post = ({ isAuth }) => {
       >
         {slideshowActive ? 'Pause Slideshow' : 'Start Slideshow'}
       </button>
+      <button onClick = {viewFamily} style = {postEditButton3}>
+        View Family
+      </button>
+    
+      <div> 
       {[3, 5, 7, 10].map((interval) => (
         <button
           key={interval}
@@ -314,11 +346,9 @@ const Post = ({ isAuth }) => {
           onClick={() => handleIntervalChange(interval)}
         >
           {`${interval}s`}
-        </button>
+       </button>
       ))}
-      <button onClick = {viewFamily} style = {postEditButton3}>
-        View Family
-      </button>
+      </div> 
       <h1 style={postHeading}>Posts</h1>
       {posts.map((post, index) => (
         <div key={post.id} style={postItem}>
@@ -378,6 +408,7 @@ const Post = ({ isAuth }) => {
         />
       )}
       <button style={postEditButton2} onClick={handleClose}>Close the Final Chapter</button>
+    </div>
     </div>
   );
 };

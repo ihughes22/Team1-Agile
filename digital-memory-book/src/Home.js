@@ -1,11 +1,16 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import "./Interactable.css"
+import backgroundImage from './Photos/triangle-mosaic.png'
+
 const Home = ({ isAuth}) => {
   const pageStyles = {
     textAlign: 'center',
     padding: '20px',
-    backgroundColor: '#f4f4f4',
+    backgroundImage: `url(${backgroundImage})`,  // Add this line
+    backgroundSize: '500px 500px',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'repeat',
     height: '100vh',
   };
 

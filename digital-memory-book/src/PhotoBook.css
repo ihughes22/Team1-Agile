@@ -1,6 +1,7 @@
 /* PhotoBook.css */
 
 #post-container {
+    background-color: white;
     width: 50%;
     height: 75%;
     margin: 0 auto;

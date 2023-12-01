@@ -11,9 +11,20 @@ import {
 import { db } from "./firebase";
 import { v4 } from "uuid";
 import { storage } from "./firebase";
+import backgroundImage from './Photos/triangle-mosaic.png'
+
 
 
 function PostUploaderV2 ({ isAuth }){
+  const pageStyles = {
+    textAlign: 'center',
+    padding: '20px',
+    backgroundImage: `url(${backgroundImage})`,  // Add this line
+    backgroundSize: '500px 500px',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'repeat',
+    height: '100vh',
+  };
     const maxChar = 230;
 
     const [image, setImage] = useState(null);
@@ -199,7 +210,8 @@ function PostUploaderV2 ({ isAuth }){
     };
 
     return (
-        <div style={{ padding: '250px', marginLeft: '350px'}}>
+       <div style={pageStyles}>
+        <div style={{ padding: '250px', margin: 'auto', display: 'flex', justifyContent: 'center', alignItems: 'center',}}>
         <div style={dimBackground}></div>
         <div style={popupBox} id="popupBox">
           <div>
@@ -231,6 +243,7 @@ function PostUploaderV2 ({ isAuth }){
             </div>
           </div>
           <p style={{ color: 'red' }}>{validationMessage}</p>
+        </div>
         </div>
         </div>
     );

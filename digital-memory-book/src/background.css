@@ -1,0 +1,23 @@
+.page-container {
+    position: relative;
+    text-align: center;
+    padding: 20px;
+    background-color: #f4f4f4da;
+    height: 100%;
+    z-index: 1;
+  }
+  .page-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/Users/rodneywotton/Desktop/Team1-Agile/digital-memory-book/public/triangle-mosaic.png');
+    background-size: 500px 500px;
+    background-position: center;
+    background-repeat: repeat;
+    opacity: 1;
+    z-index: -1; /* Set a lower z-index value than the content */
+  }
+  

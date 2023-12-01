@@ -145,6 +145,7 @@ const DigitalTimeline = ({ isAuth }) => {
   };
 
   return (
+    <div className="page">
     <div style={centeredContainer}>
       <div style={buttonContainer}>
         {isCreatingNewFamily ? (
@@ -187,6 +188,7 @@ const DigitalTimeline = ({ isAuth }) => {
           </>
         )}
       </div>
+    </div>
     </div>
   );
 };

@@ -1,10 +1,14 @@
 import React from 'react';
+import backgroundImage from './Photos/triangle-mosaic.png'
 
 const OurMission = () => {
   const pageStyles = {
     textAlign: 'center',
     padding: '20px',
-    backgroundColor: '#f4f4f4',
+    backgroundImage: `url(${backgroundImage})`,  // Add this line
+    backgroundSize: '500px 500px',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'repeat',
     height: '100vh',
   };
 

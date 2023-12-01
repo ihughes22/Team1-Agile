@@ -5,6 +5,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { db } from "./firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import "./Interactable.css";
+import backgroundImage from './Photos/triangle-mosaic.png'
 
 function Login({ setIsAuth }) {
   const [username, setUsername] = useState("");
@@ -65,7 +66,18 @@ function Login({ setIsAuth }) {
     });
   };
 
+  const pageStyles = {
+    textAlign: 'center',
+    padding: '20px',
+    backgroundImage: `url(${backgroundImage})`,  // Add this line
+    backgroundSize: '500px 500px',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'repeat',
+    height: '100vh',
+  };
+
   return (
+    <div className="page">
     <div className="Login">
       <div className="box">
         <div>
@@ -110,6 +122,7 @@ function Login({ setIsAuth }) {
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 }

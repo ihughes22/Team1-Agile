@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import ImageIcon from './Assets/ImageIcon.js';
 import "./PostUploader.css";
 import { Link } from 'react-router-dom';
+import backgroundImage from './Photos/triangle-mosaic.png'
 
 class PostUploader extends Component {
+  
   maxChar = 230;
 
   constructor(props) {
@@ -187,6 +189,7 @@ class PostUploader extends Component {
   };
 
   render() {
+    
     const postImageStyle = {
       border: '5px solid #fff',
       borderRadius: '4px',
@@ -282,6 +285,7 @@ class PostUploader extends Component {
       background: '#ffffff',
       boxShadow: '0 4px 4px rgb(0 0 0 / 0.4)',
       zIndex: '1',
+      
     };
 
     const deleteButtonStyle = {
@@ -295,13 +299,14 @@ class PostUploader extends Component {
     };
 
     return (
+      <div style={pageStyles}>
       <div style={{ padding: '200px' }}>
         <Link style={button} to="/family">View Family</Link>
         <button style={button} onClick={this.togglePopup}>New Post</button>
         <div style={dimBackground}></div>
         <div style={popupBox} id="popupBox">
           <form onSubmit={this.handleUpload}>
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex', }}>
               <span onClick={this.togglePopup} style={{ flex: '1' }}>Cancel</span>
               <button type='submit' disabled={this.state.disabled}>Upload</button>
             </div>
@@ -333,8 +338,11 @@ class PostUploader extends Component {
           </form>
           <p style={{ color: 'red' }}>{this.state.ValidationMessage}</p>
         </div>
+        </div>
 
         <div>
+        <div style={pageStyles}>
+
           Uploaded Images:
           {this.state.allItems
             .sort((a, b) => b.date - a.date)
@@ -377,6 +385,7 @@ class PostUploader extends Component {
               </div>
             ))}
         </div>
+      </div>
       </div>
     );
   }

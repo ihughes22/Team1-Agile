@@ -12,8 +12,19 @@ import {
 import { db } from "./firebase";
 import { useNavigate } from "react-router-dom";
 import "./PhotoBook.css"; // Import the CSS file
+import backgroundImage from './Photos/triangle-mosaic.png'
 
 const PhotoBook = ({ isAuth }) => {
+  const pageStyles = {
+    textAlign: 'center',
+    padding: '20px',
+    backgroundImage: `url(${backgroundImage})`,  // Add this line
+    backgroundSize: '500px 500px',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'repeat',
+    height: '100vh',
+  };
+
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [code, setCode] = useState(localStorage.getItem("code"));
@@ -64,6 +75,7 @@ const PhotoBook = ({ isAuth }) => {
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
   return (
+    <div style={pageStyles}>
     <div id="post-container" onLoad={fetchPosts}>
       <h1 className="post-heading">Photobook</h1>
       {currentPosts.map((post) => (
@@ -87,6 +99,7 @@ const PhotoBook = ({ isAuth }) => {
           Next Page
         </button>
       </div>
+    </div>
     </div>
   );
 };

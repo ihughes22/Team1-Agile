@@ -4,6 +4,7 @@ import TrashCanIcon from './Photos/trashcan.png';
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
 import { db } from './firebase';
+import backgroundImage from './Photos/triangle-mosaic.png'
 import {
   setDoc,
   getDocs,
@@ -18,6 +19,16 @@ import {
 } from 'firebase/firestore';
 
 const FamilyView = ({ isAuth }) => {
+  const pageStyles = {
+    textAlign: 'center',
+    padding: '20px',
+    backgroundImage: `url(${backgroundImage})`,  // Add this line
+    backgroundSize: '500px 500px',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'repeat',
+    height: '100vh',
+  };
+
   Modal.setAppElement('#root'); 
 
   const [showPasswordChange, setShowPasswordChange] = useState(false);
@@ -189,6 +200,7 @@ const FamilyView = ({ isAuth }) => {
   };
 
   return (
+    <div style={pageStyles}>
     <div style={centerContentStyle}>
       <h2>My Family View</h2>
       <p> Your family code is: {code}</p>
@@ -299,6 +311,7 @@ const FamilyView = ({ isAuth }) => {
           <button style = {button} onClick={closeInviteModal}>Cancel</button>
         </div>
       </Modal>
+    </div>
     </div>
   );
 };

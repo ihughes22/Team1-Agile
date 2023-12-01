@@ -32,6 +32,17 @@
   transition: background-color 0.3s ease;
 }
 
+.page {
+  text-align: center;
+  padding: 20px;
+  background-image: url('./Photos/triangle-mosaic.png'); /* Replace with the correct path */
+  background-size: 500px 500px;
+  background-position: center;
+  background-repeat: repeat;
+  height: 100vh;
+}
+
+
 .Login {
   display: flex;
   flex-direction: column;

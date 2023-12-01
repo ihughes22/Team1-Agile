@@ -99,6 +99,7 @@ function Registration() {
   };
 
   return (
+    <div className="page">
     <div className="Login">
       <div className="box">
         <h2>Register</h2>
@@ -183,6 +184,7 @@ function Registration() {
           Register
         </button>
       </div>
+    </div>
     </div>
   );
 }

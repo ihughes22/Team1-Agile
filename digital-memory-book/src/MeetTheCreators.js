@@ -1,4 +1,6 @@
 import React from 'react';
+import backgroundImage from './Photos/triangle-mosaic.png'
+
 
 const teamMembers = [
   {
@@ -42,8 +44,11 @@ const MeetTheCreators = () => {
   const pageStyles = {
     textAlign: 'center',
     padding: '20px',
-    backgroundColor: '#f4f4f4',
-  };
+    backgroundImage: `url(${backgroundImage})`, 
+    backgroundSize: '500px 500px',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'repeat',
+    height: '100%',  };
 
   const headingStyles = {
     fontSize: '36px',
@@ -56,7 +61,12 @@ const MeetTheCreators = () => {
     marginBottom: '40px',
     padding: '20px',
     backgroundColor: '#fff',
-    borderRadius: '5px',
+    background: '#FFFFFF', 
+    border: '1px gray solid', 
+    borderRadius: '75px', 
+    margin: '50px auto', 
+    maxWidth: '800px', 
+    position: 'relative',
   };
 
   const memberNameStyles = {
@@ -81,7 +91,7 @@ const MeetTheCreators = () => {
     <div style={pageStyles}>
       <h1 style={headingStyles}>Meet the Creators</h1>
       {teamMembers.map((member, index) => (
-        <div data-testid="people" key={index} style={memberStyles}>
+        <div data-testid="people" key={index} style={memberStyles}> {/* Use className instead of style */}
           <img src={`team_member_${index + 1}.jpg`} alt={member.name} />
           <h2 style={memberNameStyles}>{member.name}</h2>
           <p style={memberRoleStyles}>{member.role}</p>
@@ -90,6 +100,6 @@ const MeetTheCreators = () => {
       ))}
     </div>
   );
-};
+      };
 
 export default MeetTheCreators;
