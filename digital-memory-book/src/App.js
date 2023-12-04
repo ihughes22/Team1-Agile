@@ -14,6 +14,7 @@ import FamilyView from "./FamilyView";
 import PhotoBook from "./PhotoBook";
 import PostUploaderV2 from "./PostUploaderV2";
 import Post from "./Post";
+import NewBookExample from "./NewPhotobook";
 
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -23,6 +24,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { signOut } from "firebase/auth";
 import { auth } from "./firebase";
 import "./Interactable.css";
+import BookExample from "./BookExample";
 
 function App() {
   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
@@ -147,6 +149,8 @@ function App() {
         <Route path="/addpost" element={<PostUploaderV2 isAuth={isAuth} />} />
         <Route path="/family" element={<FamilyView isAuth={isAuth} />} />
         <Route path="/photobook" element={<PhotoBook isAuth={isAuth} />} />
+        <Route path="/bookexample" element={<NewBookExample isAuth={isAuth} />} />
+
       </Routes>
     </BrowserRouter>
   );
