@@ -34,12 +34,16 @@
     max-width: 400px; /* Set a maximum width to avoid very large images */
     height: auto;
     object-fit: contain;
+    border: solid;
+    border-color: #F0F0F0;
   }
   
   .post-details {
-    flex-grow: 1; /* Allow details to take the remaining space */
+    width: 70%;/* Allow details to take the remaining space */
     margin-left: 20px; /* Add some space between image and details */
     text-align: center; /* Align the details to the right */
+    border: solid;
+    border-color: #F0F0F0;
   }
   
   .post-caption {
