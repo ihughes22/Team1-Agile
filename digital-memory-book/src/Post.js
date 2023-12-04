@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import backgroundImage from './Photos/triangle-mosaic.png'
-import { useRef } from 'react';
+import React, { useState, useEffect } from "react";
+import backgroundImage from "./Photos/triangle-mosaic.png";
+import { useRef } from "react";
 import {
   setDoc,
   getDocs,
@@ -9,42 +9,45 @@ import {
   collection,
   deleteDoc,
   doc,
-  Firestore, 
+  Firestore,
   query,
-  where
-} from 'firebase/firestore';
-import { db } from './firebase';
-import { useNavigate } from 'react-router-dom';
+  where,
+} from "firebase/firestore";
+import { db } from "./firebase";
+import { useNavigate } from "react-router-dom";
+import "./Interactable.css";
 
 const pageStyles = {
-    padding: '20px',
-    backgroundImage: `url(${backgroundImage})`,  // Add this line
-    backgroundSize: '500px 500px',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'repeat',
-    height: '100%',
-  };
+  padding: "20px",
+  backgroundImage: `url(${backgroundImage})`, // Add this line
+  backgroundSize: "500px 500px",
+  backgroundPosition: "center",
+  backgroundRepeat: "repeat",
+  height: "100%",
+};
 
-const Slideshow = ({ images, onClose, currentSlide, onNext, onPrev, intervalDuration }) => {
-
+const Slideshow = ({
+  images,
+  onClose,
+  currentSlide,
+  onNext,
+  onPrev,
+  intervalDuration,
+}) => {
   const [showEscapeMessage, setShowEscapeMessage] = useState(true);
   const handleKeyDown = (e) => {
-    if (e.key === 'ArrowRight'|| e.key === ' ') {
+    if (e.key === "ArrowRight" || e.key === " ") {
       e.preventDefault(); // Prevent the default space bar behavior
       onNext();
-    } 
-    else if (e.key === 'ArrowLeft') {
+    } else if (e.key === "ArrowLeft") {
       onPrev();
-    }
-    else if (e.key === 'Escape') {
-
+    } else if (e.key === "Escape") {
       onClose();
     }
-
   };
 
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
     const timeoutId = setTimeout(() => {
       setShowEscapeMessage(false);
       onNext();
@@ -53,7 +56,7 @@ const Slideshow = ({ images, onClose, currentSlide, onNext, onPrev, intervalDura
       setShowEscapeMessage(false);
     }, 2000); // Hide the escape message after 3 seconds
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
       clearTimeout(hideEscapeMessageTimeout);
       clearTimeout(timeoutId);
     };
@@ -62,23 +65,23 @@ const Slideshow = ({ images, onClose, currentSlide, onNext, onPrev, intervalDura
   return (
     <div
       style={{
-        position: 'fixed',
+        position: "fixed",
         top: 0,
         left: 0,
-        width: '100%',
-        height: '100%',
+        width: "100%",
+        height: "100%",
         zIndex: 999,
       }}
     >
-          {showEscapeMessage && (
+      {showEscapeMessage && (
         <div
           style={{
-            position: 'absolute',
-            top: '10px',
+            position: "absolute",
+            top: "10px",
             left: 0,
-            width: '100%',
-            textAlign: 'center',
-            color: '#fff',
+            width: "100%",
+            textAlign: "center",
+            color: "#fff",
           }}
         >
           Press "Escape" to exit fullscreen
@@ -87,17 +90,21 @@ const Slideshow = ({ images, onClose, currentSlide, onNext, onPrev, intervalDura
       <img
         src={images[currentSlide].path}
         alt={`Slide ${currentSlide + 1}`}
-        style={{ width: '100%', height: '100%', objectFit: 'contain', backgroundColor: 'rgba(0, 0, 0, 1)',}}
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "contain",
+          backgroundColor: "rgba(0, 0, 0, 1)",
+        }}
       />
     </div>
   );
 };
 
-
 const Post = ({ isAuth }) => {
   const [posts, setPosts] = useState([]);
   const [editingPostId, setEditingPostId] = useState(null);
-  const [editedCaption, setEditedCaption] = useState('');
+  const [editedCaption, setEditedCaption] = useState("");
   const [fullscreen, setFullscreen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [slideshowActive, setSlideshowActive] = useState(false);
@@ -107,13 +114,13 @@ const Post = ({ isAuth }) => {
   const [code, setCode] = useState(localStorage.getItem("code"));
   const [uid, setUid] = useState(localStorage.getItem("uid"));
 
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
 
   const startSlideshow = () => {
-      if (posts.length === 0) {
-        setErrorMessage('There are no posts to start a slideshow.');
-        return;
-      }
+    if (posts.length === 0) {
+      setErrorMessage("There are no posts to start a slideshow.");
+      return;
+    }
     setSlideshowActive(true);
     setFullscreen(true);
     setCurrentSlide(0);
@@ -137,18 +144,17 @@ const Post = ({ isAuth }) => {
     setFullscreen(false);
   };
 
-
   const navigate = useNavigate();
 
   const fetchPosts = async () => {
-    const postsRef = collection(db, 'posts');
+    const postsRef = collection(db, "posts");
     const postsData = await getDocs(postsRef);
 
     const matchingUsers = [];
     postsData.forEach((doc) => {
       const ddata = doc.data();
-      if(ddata.code == code){
-        matchingUsers.push({ id: doc.id, ...ddata })
+      if (ddata.code == code) {
+        matchingUsers.push({ id: doc.id, ...ddata });
       }
     });
 
@@ -157,7 +163,7 @@ const Post = ({ isAuth }) => {
   };
 
   const makePost = () => {
-    navigate('/addpost');
+    navigate("/addpost");
   };
 
   const handleClose = () => {
@@ -194,7 +200,7 @@ const Post = ({ isAuth }) => {
 
   const handleSaveEdit = async (postId) => {
     // Implement logic to update post in Firestore
-    const postsRef = doc(db, 'posts', postId);
+    const postsRef = doc(db, "posts", postId);
 
     // Update the post with the new caption
     await updateDoc(postsRef, {
@@ -205,21 +211,23 @@ const Post = ({ isAuth }) => {
 
     // Clear editing state
     setEditingPostId(null);
-    setEditedCaption('');
+    setEditedCaption("");
   };
 
   const handleCancelEdit = () => {
     // Clear editing state
     setEditingPostId(null);
-    setEditedCaption('');
+    setEditedCaption("");
   };
 
   const handleDeletePost = async (postId) => {
     // Implement logic to delete post from Firestore
-    const confirmRemove = window.confirm("Are you sure you want to delete this post?");
+    const confirmRemove = window.confirm(
+      "Are you sure you want to delete this post?"
+    );
 
-    if(confirmRemove){
-      const postsRef = doc(db, 'posts', postId);
+    if (confirmRemove) {
+      const postsRef = doc(db, "posts", postId);
 
       // Delete the post
       await deleteDoc(postsRef);
@@ -229,186 +237,203 @@ const Post = ({ isAuth }) => {
   };
 
   const postContainer = {
-    backgroundColor: 'white',
-    width: '50%',
-    margin: '0 auto',
-    padding: '20px',
-    border: '5px solid #ccc',
-    borderRadius: '10px',
-    overflowY: 'auto',
+    backgroundColor: "white",
+    width: "50%",
+    margin: "0 auto",
+    padding: "20px",
+    border: "5px solid #ccc",
+    borderRadius: "10px",
+    overflowY: "auto",
   };
 
   const postHeading = {
-    fontSize: '24px',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    padding: '10px 0',
+    fontSize: "24px",
+    fontWeight: "bold",
+    textAlign: "center",
+    padding: "10px 0",
   };
 
   const postItem = {
-    sdisplay: 'flex',
-    flexDirection: 'column',
-    marginBottom: '20px',
-    border: '4px solid #eeee',
-    padding: '10px',
-    borderRadius: '5px',
+    sdisplay: "flex",
+    flexDirection: "column",
+    marginBottom: "20px",
+    border: "4px solid #eeee",
+    padding: "10px",
+    borderRadius: "5px",
   };
 
   const postImage = {
-    width: '100%',
-    height: 'auto',
-    maxHeight: '250px',
-    objectFit: 'contain',
-    borderRadius: '5px',
+    width: "100%",
+    height: "auto",
+    maxHeight: "250px",
+    objectFit: "contain",
+    borderRadius: "5px",
   };
 
   const postDetails = {
-    marginTop: '10px',
+    marginTop: "10px",
   };
 
   const postCaption = {
-    fontSize: '16px',
-    fontWeight: 'normal',
-    marginBottom: '5px',
+    fontSize: "16px",
+    fontWeight: "normal",
+    marginBottom: "5px",
   };
 
   const postDate = {
-    fontSize: '14px',
-    color: '#777',
+    fontSize: "14px",
+    color: "#777",
   };
 
   const postEditButton = {
-    padding: '5px 10px',
-    margin: '3px',
-    border: '1px solid #ccc',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    
+    padding: "5px 10px",
+    margin: "3px",
+    border: "1px solid #ccc",
+    borderRadius: "5px",
+    cursor: "pointer",
   };
 
   const postEditButton2 = {
-    padding: '5px 10px',
-    marginLeft: '350px',
-    border: '1px solid #ccc',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    margin: '10 auto',
+    padding: "5px 10px",
+    marginLeft: "350px",
+    border: "1px solid #ccc",
+    borderRadius: "5px",
+    cursor: "pointer",
+    margin: "10 auto",
   };
 
   const postEditButton3 = {
-    padding: '5px 10px',
-    marginLeft: '437px',
-    border: '1px solid #ccc',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    margin: '10s auto',
+    padding: "5px 10px",
+    marginLeft: "437px",
+    border: "1px solid #ccc",
+    borderRadius: "5px",
+    cursor: "pointer",
+    margin: "10s auto",
   };
 
   return (
     <div style={pageStyles}>
-    <div onLoad={fetchPosts} style={postContainer}>
-      {/* Display error message below the button */}
-      {errorMessage && (
-          <div style={{ color: 'red', marginTop: '10px' }}>
-            {errorMessage}
-          </div>
+      <div onLoad={fetchPosts} style={postContainer}>
+        {/* Display error message below the button */}
+        {errorMessage && (
+          <div style={{ color: "red", marginTop: "10px" }}>{errorMessage}</div>
         )}
-      <button
-        onClick={makePost}
-        style={{
-          padding: '5px 10px',
-          border: '1px solid #ccc',
-          borderRadius: '5px',
-          cursor: 'pointer',
-        }}
-      >
-        Add Post
-      </button>
-      <button
-        onClick={() => (slideshowActive ? pauseSlideshow() : startSlideshow())}
-        style={postEditButton}
-      >
-        {slideshowActive ? 'Pause Slideshow' : 'Start Slideshow'}
-      </button>
-      <button onClick = {viewFamily} style = {postEditButton3}>
-        View Family
-      </button>
-    
-      <div> 
-      {[3, 5, 7, 10].map((interval) => (
         <button
-          key={interval}
+          onClick={makePost}
+          className="login-button"
           style={{
-            marginLeft: '5px',
-            backgroundColor: selectedInterval === interval ? '#ccc' : 'transparent',
-            border: 'none',
+            padding: "5px 10px",
+            border: "1px solid #ccc",
+            borderRadius: "5px",
+            cursor: "pointer",
           }}
-          onClick={() => handleIntervalChange(interval)}
         >
-          {`${interval}s`}
-       </button>
-      ))}
-      </div> 
-      <h1 style={postHeading}>Posts</h1>
-      {posts.map((post, index) => (
-        <div key={post.id} style={postItem}>
-          <img style={postImage} src={post.path} alt={`Post ${index}`} />
-          <div style={postDetails}>
-            {editingPostId === post.id ? (
-              <div>
-                <input
-                  type="text"
-                  value={editedCaption}
-                  onChange={(e) => setEditedCaption(e.target.value)}
-                />
-                <button style={postEditButton} onClick={() => handleSaveEdit(post.id)}>
-                  Save
-                </button>
-                <button style={postEditButton} onClick={handleCancelEdit}>
-                  Cancel
-                </button>
-              </div>
-            ) : (
-              <div>
-                <p style={postCaption}>{post.caption}</p>
-                <p style={postDate}>{post.date}</p>
-                <p style={postDate}>{"@" + post.author}</p>
-                {post.uid === uid && (
-            <>
-              <button
-                style={postEditButton}
-                onClick={() => handleEditPost(post.id, post.caption)}
-              >
-                Edit Caption
-              </button>
-              <button
-                style={postEditButton}
-                onClick={() => handleDeletePost(post.id)}
-              >
-                Delete Post
-              </button>
-            </>
-          )}
-              </div>
-            )}
-          </div>
-        </div>
-      ))}
-
-      {slideshowActive && fullscreen && (
-        <Slideshow
-          images={posts}
-          currentSlide={currentSlide}
-          intervalDuration={slideshowInterval}
-          onNext={() => setCurrentSlide((prevSlide) => (prevSlide + 1) % posts.length)}
-          onPrev={() =>
-            setCurrentSlide((prevSlide) => (prevSlide - 1 + posts.length) % posts.length)
+          Add Post
+        </button>
+        <button
+          className="login-button"
+          onClick={() =>
+            slideshowActive ? pauseSlideshow() : startSlideshow()
           }
-          onClose={pauseSlideshow}
-        />
-      )}
-      <button style={postEditButton2} onClick={handleClose}>Close the Final Chapter</button>
-    </div>
+          style={postEditButton}
+        >
+          {slideshowActive ? "Pause Slideshow" : "Start Slideshow"}
+        </button>
+        <button
+          className="login-button"
+          onClick={viewFamily}
+          style={postEditButton3}
+        >
+          View Family
+        </button>
+
+        <div>
+          {[3, 5, 7, 10].map((interval) => (
+            <button
+              key={interval}
+              style={{
+                marginLeft: "5px",
+                backgroundColor:
+                  selectedInterval === interval ? "#ccc" : "transparent",
+                border: "none",
+              }}
+              onClick={() => handleIntervalChange(interval)}
+            >
+              {`${interval}s`}
+            </button>
+          ))}
+        </div>
+        <h1 style={postHeading}>Posts</h1>
+        {posts.map((post, index) => (
+          <div key={post.id} style={postItem}>
+            <img style={postImage} src={post.path} alt={`Post ${index}`} />
+            <div style={postDetails}>
+              {editingPostId === post.id ? (
+                <div>
+                  <input
+                    type="text"
+                    value={editedCaption}
+                    onChange={(e) => setEditedCaption(e.target.value)}
+                  />
+                  <button
+                    style={postEditButton}
+                    onClick={() => handleSaveEdit(post.id)}
+                  >
+                    Save
+                  </button>
+                  <button style={postEditButton} onClick={handleCancelEdit}>
+                    Cancel
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <p style={postCaption}>{post.caption}</p>
+                  <p style={postDate}>{post.date}</p>
+                  <p style={postDate}>{"@" + post.author}</p>
+                  {post.uid === uid && (
+                    <>
+                      <button
+                        className="register-button"
+                        style={postEditButton}
+                        onClick={() => handleEditPost(post.id, post.caption)}
+                      >
+                        Edit Caption
+                      </button>
+                      <button
+                        className="register-button"
+                        style={postEditButton}
+                        onClick={() => handleDeletePost(post.id)}
+                      >
+                        Delete Post
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+
+        {slideshowActive && fullscreen && (
+          <Slideshow
+            images={posts}
+            currentSlide={currentSlide}
+            intervalDuration={slideshowInterval}
+            onNext={() =>
+              setCurrentSlide((prevSlide) => (prevSlide + 1) % posts.length)
+            }
+            onPrev={() =>
+              setCurrentSlide(
+                (prevSlide) => (prevSlide - 1 + posts.length) % posts.length
+              )
+            }
+            onClose={pauseSlideshow}
+          />
+        )}
+        <button style={postEditButton2} onClick={handleClose}>
+          Close the Final Chapter
+        </button>
+      </div>
     </div>
   );
 };
