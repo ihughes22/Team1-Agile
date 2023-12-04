@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const PageCover = React.forwardRef((props, ref) => (
   <div className="cover" ref={ref} data-density="hard">
     <div>
-      <h2>{props.children}</h2>
+      <h2 style = {{marginTop: '150px'}}>{props.children}</h2>
     </div>
   </div>
 ));
@@ -26,6 +26,7 @@ function BookExample(props) {
   const [contentPageNumbers, setNums] = useState([]);
   
   const [numofpages, setPages] = useState(0);
+  const [webName, setWebName] = useState(localStorage.getItem("webName"));
 
   const fetchAllPosts = async () => {
     try {
@@ -52,7 +53,7 @@ function BookExample(props) {
 
   const navigate = useNavigate();
   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
-  
+
   useEffect(() => {
     if (!isAuth) {
       navigate("/login");
@@ -87,7 +88,7 @@ function BookExample(props) {
           className="album-web"
         >
           {/* Front Cover */}
-          <PageCover>Front Cover</PageCover>
+          <PageCover>{webName}</PageCover>
   
           {/* Content Pages */}
           {contentPageNumbers.map((pageNumber) => (
@@ -103,7 +104,7 @@ function BookExample(props) {
           ))}
   
           {/* Back Cover */}
-          <PageCover>Back Cover</PageCover>
+          <PageCover>The End</PageCover>
         </HTMLFlipBook>
       </div>
     );
