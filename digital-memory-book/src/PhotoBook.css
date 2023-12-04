@@ -20,6 +20,7 @@
   
   .post-item {
     display: flex;
+    background-color: white;
     flex-direction: row; /* Set the flex direction to row for side-by-side layout */
     justify-content: center; /* Add space between the image and details */
     align-items: center; /* Align items vertically in the center */

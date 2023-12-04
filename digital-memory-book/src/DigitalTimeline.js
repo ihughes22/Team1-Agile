@@ -164,6 +164,7 @@ const DigitalTimeline = ({ isAuth }) => {
               <input
                 type="text"
                 placeholder="Family Name"
+                style = {{margin: '5px'}}
                 value={enteredName}
                 onChange={handleNameChange}
               />
@@ -171,12 +172,13 @@ const DigitalTimeline = ({ isAuth }) => {
                 type="password"
                 placeholder="Password"
                 value={password}
+                style = {{margin: '5px'}}
                 onChange={handlePasswordChange}
               />
-              <button style={button2} onClick={saveNewFamily}>
+              <button className = "login-button" onClick={saveNewFamily}>
                 Save
               </button>
-              <button style={button2} onClick={handleEnterFamilyCode}>
+              <button className = "login-button" onClick={handleEnterFamilyCode}>
                 Back
               </button>
             </>
@@ -188,18 +190,20 @@ const DigitalTimeline = ({ isAuth }) => {
                 type="text"
                 placeholder="Family Code"
                 value={familyCode}
+                style = {{margin: '5px'}}
                 onChange={handleFamilyCodeChange}
               />
               <input
                 type="password"
                 placeholder="Password"
                 value={password}
+                style = {{margin: '5px'}}
                 onChange={handlePasswordChange}
               />
-              <button style={button2} onClick={joinFamily}>
+              <button className = "login-button" onClick={joinFamily}>
                 Join
               </button>
-              <button style={button2} onClick={handleCreateNewFamily}>
+              <button className = "login-button" onClick={handleCreateNewFamily}>
                 Create New Family
               </button>
             </>

@@ -148,8 +148,7 @@ function App() {
         <Route path="/timeline" element={<Post isAuth={isAuth} />} />
         <Route path="/addpost" element={<PostUploaderV2 isAuth={isAuth} />} />
         <Route path="/family" element={<FamilyView isAuth={isAuth} />} />
-        <Route path="/photobook" element={<PhotoBook isAuth={isAuth} />} />
-        <Route path="/bookexample" element={<NewBookExample isAuth={isAuth} />} />
+        <Route path="/photobook" element={<NewBookExample isAuth={isAuth} />} />
 
       </Routes>
     </BrowserRouter>

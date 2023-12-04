@@ -321,12 +321,6 @@ const Post = ({ isAuth }) => {
         <button
           onClick={makePost}
           className="login-button"
-          style={{
-            padding: "5px 10px",
-            border: "1px solid #ccc",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
         >
           Add Post
         </button>
@@ -335,19 +329,17 @@ const Post = ({ isAuth }) => {
           onClick={() =>
             slideshowActive ? pauseSlideshow() : startSlideshow()
           }
-          style={postEditButton}
         >
           {slideshowActive ? "Pause Slideshow" : "Start Slideshow"}
         </button>
         <button
           className="login-button"
           onClick={viewFamily}
-          style={postEditButton3}
         >
           View Family
         </button>
 
-        <div>
+        <div style = {{ marginLeft: '130px'}}>
           {[3, 5, 7, 10].map((interval) => (
             <button
               key={interval}
@@ -430,7 +422,7 @@ const Post = ({ isAuth }) => {
             onClose={pauseSlideshow}
           />
         )}
-        <button style={postEditButton2} onClick={handleClose}>
+        <button className="login-button" onClick={handleClose} style = {{marginLeft: '230px'}}>
           Close the Final Chapter
         </button>
       </div>

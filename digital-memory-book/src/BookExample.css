@@ -4,6 +4,7 @@ text-align: center;
 }
 
 .page {
+padding-top: 150px;
 box-shadow: 0 1.5em 3em -1em rgb(70, 69, 69);
 }
 

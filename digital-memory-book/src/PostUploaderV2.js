@@ -13,8 +13,6 @@ import { v4 } from "uuid";
 import { storage } from "./firebase";
 import backgroundImage from './Photos/triangle-mosaic.png'
 
-
-
 function PostUploaderV2 ({ isAuth }){
   const pageStyles = {
     textAlign: 'center',
@@ -216,8 +214,8 @@ function PostUploaderV2 ({ isAuth }){
         <div style={popupBox} id="popupBox">
           <div>
             <div style={{ display: 'flex' }}>
-              <button style = {button} id = "submit" type='submit' onClick={handleUpload}>Upload</button>
-              <button style={button} onClick={handleCancel}>Cancel</button>
+              <button className="login-button" id = "submit" type='submit' onClick={handleUpload}>Upload</button>
+              <button className="login-button" onClick={handleCancel}>Cancel</button>
             </div>
             <div style={postStyle}>
               {image ? (

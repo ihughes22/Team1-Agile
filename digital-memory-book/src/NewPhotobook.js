@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
 import "./BookExample.css";
+import { useNavigate } from "react-router-dom";
 
 const PageCover = React.forwardRef((props, ref) => (
   <div className="cover" ref={ref} data-density="hard">
@@ -13,81 +14,100 @@ const PageCover = React.forwardRef((props, ref) => (
 ));
 
 const Page = React.forwardRef(({ fetchData }, ref) => {
-  const [posts, setPosts] = useState([]);
-
-  useEffect(() => {
-    const fetchAllPosts = async () => {
-      try {
-        const postsRef = collection(db, "posts");
-        const postsData = await getDocs(postsRef);
-        const allPosts = [];
-
-        postsData.forEach((doc) => {
-          const ddata = doc.data();
-          allPosts.push({ id: doc.id, ...ddata });
-        });
-
-        allPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
-        setPosts(allPosts);
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-      }
-    };
-
-    fetchAllPosts();
-  }, []);
-
   return (
     <div className="page" ref={ref}>
-      <h1>Page Header</h1>
-      {posts.map((post) => (
-        <div key={post.id} className="post-item">
-          <img className="post-image" src={post.path} alt="Post" />
-          <div className="post-details">
-            <p className="post-caption">{post.caption}</p>
-            <p className="post-date">{post.date}</p>
-          </div>
-        </div>
-      ))}
     </div>
   );
 });
 
 function BookExample(props) {
-  // Set the desired number of content pages
-  const numberOfPages = 10;
+  const [posts, setPosts] = useState([]);
+  const [code, setCode] = useState(localStorage.getItem("code"));
+  const [contentPageNumbers, setNums] = useState([]);
+  
+  const [numofpages, setPages] = useState(0);
 
-  // Create an array of page numbers for content pages
-  const contentPageNumbers = Array.from({ length: numberOfPages }, (_, index) => index + 1);
+  const fetchAllPosts = async () => {
+    try {
+      const postsRef = collection(db, "posts");
+      const postsData = await getDocs(postsRef);
+      const allPosts = [];
 
-  return (
-    <div>
-      <HTMLFlipBook
-        width={550}
-        height={650}
-        minWidth={315}
-        maxWidth={1000}
-        minHeight={420}
-        maxHeight={1350}
-        showCover={true}
-        flippingTime={1000}
-        style={{ margin: "0 auto" }}
-        maxShadowOpacity={0.5}
-        className="album-web"
-      >
-        {/* Front Cover */}
-        <PageCover>Front Cover</PageCover>
+      postsData.forEach((doc) => {
+        const ddata = doc.data();
+        if(ddata.code == code){
+          allPosts.push({ id: doc.id, ...ddata });
+          setPages(numofpages + 1);
+        }
+      });
 
-        {/* Content Pages */}
-        {contentPageNumbers.map((pageNumber) => (
-          <Page key={pageNumber} />
-        ))}
+      allPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+      setPosts(allPosts);
+      setNums(Array.from({ length: allPosts.length }, (_, index) => index + 1));
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    }
+  };
 
-        {/* Back Cover */}
-        <PageCover>Back Cover</PageCover>
-      </HTMLFlipBook>
-    </div>
-  );
+
+  const navigate = useNavigate();
+  const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
+  
+  useEffect(() => {
+    if (!isAuth) {
+      navigate("/login");
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchAllPosts();
+
+    const intervalId = setInterval(() => {
+      fetchAllPosts();
+    }, 30 * 60 * 1000);
+
+    // Clean up the timer on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
+  if(posts.length > 0 && posts.length == contentPageNumbers.length && contentPageNumbers.length > 0){
+    return (
+      <div>
+        <HTMLFlipBook
+          width={550}
+          height={650}
+          minWidth={315}
+          maxWidth={1000}
+          minHeight={420}
+          maxHeight={1350}
+          showCover={true}
+          flippingTime={1000}
+          style={{ margin: "0 auto" }}
+          maxShadowOpacity={0.5}
+          className="album-web"
+        >
+          {/* Front Cover */}
+          <PageCover>Front Cover</PageCover>
+  
+          {/* Content Pages */}
+          {contentPageNumbers.map((pageNumber) => (
+            <div className="page">
+            <div key={posts[pageNumber-1].id} className="post-item">
+              <img className="post-image" src={posts[pageNumber-1].path} alt="Post" />
+              <div className="post-details">
+                <p className="post-caption">{posts[pageNumber-1].caption}</p>
+                <p className="post-date">{posts[pageNumber-1].date}</p>
+              </div>
+            </div>
+            </div>
+          ))}
+  
+          {/* Back Cover */}
+          <PageCover>Back Cover</PageCover>
+        </HTMLFlipBook>
+      </div>
+    );
+  }
 }
 
 export default BookExample;
