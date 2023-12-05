@@ -30,7 +30,6 @@
   }
   
   .post-image {
-    width: 75%;
     max-width: 400px;
     height: auto;
     object-fit: contain;
