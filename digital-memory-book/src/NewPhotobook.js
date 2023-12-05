@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
 import "./BookExample.css";
+import "./PhotoBook.css"
 import { useNavigate } from "react-router-dom";
 
 const PageCover = React.forwardRef((props, ref) => (
@@ -88,7 +89,7 @@ function BookExample(props) {
           className="album-web"
         >
           {/* Front Cover */}
-          <PageCover>{webName}</PageCover>
+          <PageCover>{webName}: A Digital Memory Book</PageCover>
   
           {/* Content Pages */}
           {contentPageNumbers.map((pageNumber) => (

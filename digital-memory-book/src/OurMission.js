@@ -19,18 +19,23 @@ const OurMission = () => {
     marginBottom: '20px',
   };
 
-  const missionTextStyles = {
-    fontSize: '18px',
-    color: '#666',
-    marginBottom: '30px',
-    textAlign: 'left',
+  const memberStyles = {
+    marginBottom: '40px',
+    padding: '20px',
+    backgroundColor: '#fff',
+    background: '#FFFFFF', 
+    border: '1px gray solid', 
+    borderRadius: '75px', 
+    margin: '50px auto', 
+    maxWidth: '800px', 
+    position: 'relative',
   };
 
   return (
     <div style={pageStyles}>
-      <div>
+      <div >
         <h1 style={headingStyles}>Our Mission</h1>
-        <p style={missionTextStyles}>
+        <p style={memberStyles}>
           Our mission was to create a collaborative platform for families to build a digital timeline of memories with their loved ones in their final chapter of life. A slideshow of all the memories can be viewed at any time by all family membres. When a loved one closes their final chapter, the memories family members added can be turned into a book to celebrate their life at a funeral or memorial.
         </p>
       </div>

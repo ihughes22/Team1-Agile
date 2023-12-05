@@ -3,7 +3,6 @@ import "./App.css";
 import Login from "./Login";
 import Registration from "./Registration";
 import Home from "./Home";
-import NavbarTop from "./NavbarTop";
 import ContactUs from "./ContactUs";
 import OurMission from "./OurMission";
 import MeetTheCreators from "./MeetTheCreators";
@@ -11,11 +10,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import DigitalTimeline from "./DigitalTimeline";
 import FamilyView from "./FamilyView";
-import PhotoBook from "./PhotoBook";
 import PostUploaderV2 from "./PostUploaderV2";
 import Post from "./Post";
 import NewBookExample from "./NewPhotobook";
-
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -24,7 +21,6 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { signOut } from "firebase/auth";
 import { auth } from "./firebase";
 import "./Interactable.css";
-import BookExample from "./BookExample";
 
 function App() {
   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"));
@@ -141,15 +137,11 @@ function App() {
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/ourmission" element={<OurMission />} />
         <Route path="/meetus" element={<MeetTheCreators />} />
-        <Route
-          path="/timelinecreation"
-          element={<DigitalTimeline isAuth={isAuth} />}
-        />
+        <Route path="/timelinecreation" element={<DigitalTimeline isAuth={isAuth} />} />
         <Route path="/timeline" element={<Post isAuth={isAuth} />} />
         <Route path="/addpost" element={<PostUploaderV2 isAuth={isAuth} />} />
         <Route path="/family" element={<FamilyView isAuth={isAuth} />} />
         <Route path="/photobook" element={<NewBookExample isAuth={isAuth} />} />
-
       </Routes>
     </BrowserRouter>
   );
