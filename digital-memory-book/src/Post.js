@@ -318,10 +318,7 @@ const Post = ({ isAuth }) => {
         {errorMessage && (
           <div style={{ color: "red", marginTop: "10px" }}>{errorMessage}</div>
         )}
-        <button
-          onClick={makePost}
-          className="login-button"
-        >
+        <button onClick={makePost} className="login-button">
           Add Post
         </button>
         <button
@@ -332,14 +329,11 @@ const Post = ({ isAuth }) => {
         >
           {slideshowActive ? "Pause Slideshow" : "Start Slideshow"}
         </button>
-        <button
-          className="login-button"
-          onClick={viewFamily}
-        >
+        <button className="login-button" onClick={viewFamily}>
           View Family
         </button>
 
-        <div style = {{ marginLeft: '130px'}}>
+        <div style={{ marginLeft: "130px" }}>
           {[3, 5, 7, 10].map((interval) => (
             <button
               key={interval}
@@ -422,7 +416,11 @@ const Post = ({ isAuth }) => {
             onClose={pauseSlideshow}
           />
         )}
-        <button className="login-button" onClick={handleClose} style = {{marginLeft: '230px'}}>
+        <button
+          className="login-button"
+          onClick={handleClose}
+          style={{ display: "block", marginLeft: "auto", marginRight: "auto" }}
+        >
           Close the Final Chapter
         </button>
       </div>
