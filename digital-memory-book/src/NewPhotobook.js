@@ -88,8 +88,7 @@ function BookExample(props) {
           className="album-web"
         >
           {/* Front Cover */}
-          <PageCover>{webName}:
-          A Digital Memory Book</PageCover>
+          <PageCover>{webName}</PageCover>
   
           {/* Content Pages */}
           {contentPageNumbers.map((pageNumber) => (
