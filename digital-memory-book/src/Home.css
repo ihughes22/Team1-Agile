@@ -1,0 +1,21 @@
+.page {
+    text-align: center;
+    padding: 20px;
+    background-size: 500px 500px;
+    background-position: center;
+    background-repeat: repeat;
+    height: 100vh;
+  }
+  
+  .heading {
+    font-size: 36px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .subheading {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 30px;
+  }
