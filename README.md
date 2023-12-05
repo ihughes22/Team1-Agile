@@ -10,6 +10,15 @@
 2. `cd Team1-Agile/digital-memory-book`
 3. `npm start`
 
+
+## React Pageflip
+
+1. `npm i react-pageflip`
+
+## React Scripts
+
+1. `npm i react-scripts`
+
 ## React Router
 
 1. `npm i react-router-dom`
