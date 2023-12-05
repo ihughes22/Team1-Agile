@@ -23,7 +23,7 @@ const pageStyles = {
   backgroundSize: "500px 500px",
   backgroundPosition: "center",
   backgroundRepeat: "repeat",
-  height: "100%",
+  height: "200%",
 };
 
 const Slideshow = ({

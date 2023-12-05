@@ -3,6 +3,11 @@ import backgroundImage from './Photos/triangle-mosaic.png';
 import Isabel from './Headshots/team_member_1.jpeg';
 import Rodney from './Headshots/team_member_2.jpeg';
 import Ethan from './Headshots/team_member_3.jfif';
+import Jolene from './Headshots/team_member_4.jpeg';
+import Ashna from './Headshots/team_member_5.jfif';
+import Zuting from './Headshots/team_member_6.jfif'
+import Ahmad from './Headshots/team_member_7.jpeg';
+
 
 const teamMembers = [
   {
@@ -26,25 +31,25 @@ const teamMembers = [
   {
     name: 'Jolene Ciccarone',
     role: 'Marketing Manager',
-    src: '',
+    src: Jolene,
     bio: 'Hi! I am a 4/4 Software Engineering major. Over the past two summers, I have done research in AI/ML and Data Analysis, and have interned at a finance & pharma company. Currently, I am an Assistant to the ASC, a grader for MA 134 and an RA. I mainly have experience with python and java and am looking into learning more about app development. Something you probably would not know about me is that in my free time, I teach kids how to play Minecraft through CodeAdvantage.',
   },
   {
     name: 'Ashna Razdan',
     role: 'Content Writer',
-    src: '',
+    src: Ashna,
     bio: 'Hi! My name is Ashna and I am a 4/4 Software Engineering major with a minor in Computer Science. I have some experience in full-stack development and mainly work in Java, JavaScript, and Python. I am currently working on some app development and am constantly learning new things! One fun fact about me is my favorite movie is Teen Beach Movie.',
   },
   {
     name: 'Zuting Chen',
     role: 'UX Researcher',
-    src: '',
+    src: Zuting,
     bio: 'Hello! I am a 4/4 undergraduate Software Engineer. I have had internship experience in Merck and Warner Bros. Discovery where I did a mix of frontend and backend. Eventually, I hope to be able to work with fullstack. As a hobby, I also love to draw!',
   },
   {
     name: 'Ahmad Chaabane',
     role: 'Support Specialist',
-    src: '',
+    src: Ahmad,
     bio: 'Hello, my name is Ahmad Chaabane. I am a 3rd year software engineering major. I do not have professional experience in the field other than a projects I have worked on my own time. I am currently working on a couple of projects with some friends to create a discord bot for music. I am a big fan of sport, specifically MMA and basketball. I am still currently learning MMA but I have been playing basketball all my life.',
   },
 ];
@@ -101,7 +106,7 @@ const MeetTheCreators = () => {
       <h1 style={headingStyles}>Meet the Creators</h1>
       {teamMembers.map((member, index) => (
         <div data-testid="people" key={index} style={memberStyles}> 
-          <img style = {{height: '150px', width: '100px'}} src={member.src} alt={member.name} />
+          <img style = {{height: '200px', width: '200px'}} src={member.src} alt={member.name} />
           <h2 style={memberNameStyles}>{member.name}</h2>
           <p style={memberRoleStyles}>{member.role}</p>
           <p style={memberBioStyles}>{member.bio}</p>
