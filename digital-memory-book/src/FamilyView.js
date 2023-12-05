@@ -44,7 +44,12 @@ const FamilyView = ({ isAuth }) => {
   const [passwordChangeError, setPasswordChangeError] = useState("");
 
   const showPasswordChangeFields = () => {
-    setShowPasswordChange(true);
+    if(showPasswordChange){
+      setShowPasswordChange(false);
+    }
+    else{
+      setShowPasswordChange(true);
+    }
     setOldPassword("");
     setNewPassword("");
     setConfirmNewPassword("");
