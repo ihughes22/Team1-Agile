@@ -1,16 +1,21 @@
 .album-web {
 background: rgb(255, 251, 251);
 text-align: center;
+font-family: 'Times New Roman', Times, serif;
 }
 
 .page {
 padding-top: 150px;
 box-shadow: 0 1.5em 3em -1em rgb(70, 69, 69);
+background: linear-gradient(to bottom, #f9f9f9, rgb(216, 216, 235));
+
 }
 
 .cover {
 background-color: rgb(202, 188, 240);
 box-shadow: 0 1.5em 3em -1em rgb(70, 69, 69);
+background-image: linear-gradient(to right, #bcadf0, #ececf2);
+
 }
 
 
