@@ -21,9 +21,8 @@
   .post-item {
     display: flex;
     background-color: white;
-    flex-direction: row; /* Set the flex direction to row for side-by-side layout */
-    justify-content: center; /* Add space between the image and details */
-    align-items: center; /* Align items vertically in the center */
+    flex-direction: column; /* Change flex direction to column for top-to-bottom layout */
+    align-items: center; /* Align items horizontally in the center */
     margin-bottom: 20px;
     border: 4px solid #eeee;
     padding: 10px;
@@ -31,25 +30,26 @@
   }
   
   .post-image {
-    width: 30%; /* Adjust the width to make the pictures smaller */
-    max-width: 400px; /* Set a maximum width to avoid very large images */
+    width: 75%;
+    max-width: 400px;
     height: auto;
     object-fit: contain;
     border: solid;
-    border-color: #F0F0F0;
+    border-color: #f0f0f0;
   }
   
   .post-details {
-    width: 70%;/* Allow details to take the remaining space */
-    margin-left: 20px; /* Add some space between image and details */
-    text-align: center; /* Align the details to the right */
+    padding: 0px 20px 0px 20px; /* Add padding to all sides of .post-details */
+    margin-top: 20px; /* Preserve some space between image and details */
+    text-align: center;
     border: solid;
-    border-color: #F0F0F0;
+    border-color: #f0f0f0;
   }
   
   .post-caption {
-    font-size: 20px; /* Increase the font size for captions */
+    font-size: 20px;
     font-weight: normal;
+    margin-top: 5px;
     margin-bottom: 5px;
   }
   
