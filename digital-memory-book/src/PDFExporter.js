@@ -26,6 +26,10 @@ const styles = StyleSheet.create({
     fontSize: '20px',
     width: '250px', 
   },
+  postDateStyle: {
+    fontSize: "10px",
+    color: "#777",
+  },
   pageNum: {
     position: 'absolute',
     fontSize: 16,
@@ -65,6 +69,9 @@ const PDFExporter = () => {
             <Image style={styles.postImageStyle} src={post.path} />
             <Text style={styles.postDescStyle}>
               {post.caption}
+            </Text>
+            <Text style={styles.postDateStyle}>
+              {post.date}
             </Text>
           </View>
           <Text style={styles.pageNum}>Page {index}</Text>
