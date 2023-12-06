@@ -1,5 +1,6 @@
-import React from 'react';
-import { PDFViewer, Page, Text, View, Image, Document, StyleSheet, BlobProvider } from '@react-pdf/renderer';
+import React, { useState, useEffect } from "react";
+import { PDFViewer, Page, Text, View, Image, Document, StyleSheet } from '@react-pdf/renderer';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 const styles = StyleSheet.create({
   page: {
@@ -36,31 +37,49 @@ const styles = StyleSheet.create({
   }
 });
 
-// Create Document Component - Need to write a version for timeline later
-const MyDocument = () => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.postStyle}>
-        <Image style={styles.postImageStyle} src="/Photos/unknown2.jpg"/>
-        <Text style={styles.postDescStyle}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dolor quam, faucibus semper tortor a, bibendum tincidunt purus. Proin ullamcorper purus non sagittis commodo. In hac habitasse platea dictumst. Duis feugiat,           </Text>
-      </View>
-      <View style={styles.postStyle}>
-        <Image style={styles.postImageStyle} src="https://images.pexels.com/photos/2486168/pexels-photo-2486168.jpeg?cs=srgb&dl=pexels-roberto-nickson-2486168.jpg&fm=jpg"/>
-        <Text style={styles.postDescStyle}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dolor quam, faucibus semper tortor a, bibendum tincidunt purus. Proin ullamcorper purus non sagittis commodo. In hac habitasse platea dictumst. Duis feugiat,           </Text>
-      </View>
-      <Text style={styles.pageNum}>Page 1</Text>
-    </Page>
-  </Document>
-);
+const PDFExporter = () => {
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const { data } = useParams();
+  const decodedData = decodeURIComponent(data);
+  const [posts, setPosts] = useState([]);
 
-const PDFExporter = () => (
-  <div>
-    <PDFViewer class="center" style={{height: '100vh', width: "100%"}}>
-      <MyDocument />
-    </PDFViewer>
-  </div>
-);
+  useEffect(() => {
+    if (state && state.posts) {
+      setPosts(state.posts);
+    } else {
+      try {
+        const parsedData = JSON.parse(decodedData);
+        setPosts(parsedData);
+      } catch (error) {
+        console.error('Error parsing JSON data:', error);
+      }
+    }
+  }, [decodedData, state]);
+
+  const MyDocument = () => (
+    <Document>
+      {posts.map((post, index) => (
+        <Page key={index} size="A4" style={styles.page}>
+          <View style={styles.postStyle}>
+            <Image style={styles.postImageStyle} src={post.path} />
+            <Text style={styles.postDescStyle}>
+              {post.caption}
+            </Text>
+          </View>
+          <Text style={styles.pageNum}>Page {index}</Text>
+        </Page>
+      ))}
+    </Document>
+  );
+
+  return (
+    <div>
+      <PDFViewer className="center" style={{ height: '100vh', width: "100%" }}>
+        <MyDocument />
+      </PDFViewer>
+    </div>
+  );
+}
 
 export default PDFExporter;
