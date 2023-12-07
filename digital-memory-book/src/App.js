@@ -11,6 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import DigitalTimeline from "./DigitalTimeline";
 import FamilyView from "./FamilyView";
 import PostUploaderV2 from "./PostUploaderV2";
+import PDFExporter from "./PDFExporter";
 import Post from "./Post";
 import NewBookExample from "./NewPhotobook";
 import Container from "react-bootstrap/Container";
@@ -142,6 +143,7 @@ function App() {
         <Route path="/addpost" element={<PostUploaderV2 isAuth={isAuth} />} />
         <Route path="/family" element={<FamilyView isAuth={isAuth} />} />
         <Route path="/photobook" element={<NewBookExample isAuth={isAuth} />} />
+        <Route path="/pdf" element={<PDFExporter isAuth={isAuth} />} />
       </Routes>
     </BrowserRouter>
   );

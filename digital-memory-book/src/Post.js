@@ -11,7 +11,7 @@ import {
   doc,
   Firestore,
   query,
-  where,
+  where
 } from "firebase/firestore";
 import { db } from "./firebase";
 import { useNavigate } from "react-router-dom";
@@ -173,6 +173,9 @@ const Post = ({ isAuth }) => {
   const viewFamily = () => {
     navigate("/family");
   };
+  const exportPDF = () => {
+    navigate("/pdf", { state: { posts }});
+  };
 
   useEffect(() => {
     if (!isAuth) {
@@ -331,6 +334,9 @@ const Post = ({ isAuth }) => {
         </button>
         <button className="login-button" onClick={viewFamily}>
           View Family
+        </button>
+        <button className="login-button" onClick={exportPDF}>
+          Export PDF
         </button>
 
         <div style={{ marginLeft: "130px" }}>
